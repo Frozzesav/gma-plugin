@@ -29,16 +29,15 @@ jQuery('#newCompetitorForm').validate({
         var composition2 = jQuery('#composition2').val();
         var composition3 = jQuery('#composition3').val();
 
-        var compositions = [composition1];
-        var compositions2 = [];
+        var compositions = [];
         if (composition1) {
-            compositions2.push(composition1)
+            compositions.push(composition1)
         }
         if (composition2) {
-            compositions2.push(composition2)
+            compositions.push(composition2)
         }
         if (composition3) {
-            compositions2.push(composition2)
+            compositions.push(composition2)
         }
         
         
@@ -81,7 +80,6 @@ jQuery('#newCompetitorForm').validate({
         formData.append("birthday", birthday);
         formData.append("ageCategory", ageCategory);
         formData.append("compositions", JSON.stringify(compositions)); //"[1, 2, 3]"
-        formData.append("compositions2", JSON.stringify(compositions2)); //"[1, 2, 3]"
         formData.append("source", linkVideo);
         // formData.append("typeContent", typeContent);
         formData.append("competitionId", competitionId);

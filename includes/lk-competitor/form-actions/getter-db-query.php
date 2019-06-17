@@ -33,7 +33,6 @@ function getCurrentSubSpecialties()
 	return $queryArray;
 }
 
-//как сделать запрос к субСпециальностям
 
 function getCurrentNominations()
 {

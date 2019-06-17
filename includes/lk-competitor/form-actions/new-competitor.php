@@ -7,7 +7,7 @@ add_action('wp_ajax_testAjax', 'testAjax');
 function testAjax()
 {
 	$cur_user_id = get_current_user_id();
-
+	
 	global $wpdb;
 	global	$current_user;
 	
@@ -19,44 +19,48 @@ function testAjax()
 		$wpdb->insert(
 			"wp_gma_musicians_of_user",
 			[
-			"name" => "$name_musician", 
-			"user_id" => "{$current_user->id}",
-			"birthday" => "$birthday", 
-			"removed" => 0
+				"name" => "$name_musician", 
+				"user_id" => "{$current_user->id}",
+				"birthday" => "$birthday", 
+				"removed" => 0
 			],
-		
+			
 			['%s', '%d', '%s', '%d']
-			);
-			
-			$musician_id = $wpdb->insert_id;
-			
+		);
+		
+		$musician_id = $wpdb->insert_id;
+		
 	}  else {
 		$musician_id = $_POST['musiciaId'];
 	}
 	
-
+	
 	$age_category = $_POST['ageCategory'];
-
+	
 	$competition_id = $_POST['competitionId'] ;
-
+	
 	$city = $_POST['city'];
 	$telephone = $_POST['telephone'];
 
+	$compositions =  ($_POST["compositions"]);
+	$compositions = stripcslashes ($compositions);
+	
 	$wpdb->insert(
 		"wp_gma_competitor",
 		[
-		"user_id" => "{$current_user->id}",
-		"musician_id" => $musician_id,
-		"telephone" => $telephone,   // Хранить КАК ЧИСЛО? или СТроку?
-		"city" => $city,  
-		"competition_id" => $competition_id, //Тоже не знаю как получить. Что делать, Если нет конкурсов?
-		"age_category" => "$age_category", 
-		"isConfirm" => 0
-		
+			"user_id" => "{$current_user->id}",
+			"musician_id" => $musician_id,
+			"compositions" => $compositions,
+			"telephone" => $telephone,   // Хранить КАК ЧИСЛО? или СТроку?
+			"city" => $city,  
+			"competition_id" => $competition_id, //Тоже не знаю как получить. Что делать, Если нет конкурсов?
+			"age_category" => "$age_category", 
+			"isConfirm" => 0
+			
 		],
 	
-		['%d', '%d', '%s', '%s', '%d', '%s', '%d']
-		);
+	['%d', '%d', '%s', '%s', '%d', '%s', '%d']
+);
 
 	$competitor_id =  $wpdb->insert_id;
 	$specialty_id = $_POST['specialty'];
@@ -64,13 +68,13 @@ function testAjax()
 	$wpdb->insert(
 		"wp_gma_specialty_for_competitor",
 		[
-		"competitor_id" => $competitor_id,
-		"specialty_id" => $specialty_id
+			"competitor_id" => $competitor_id,
+			"specialty_id" => $specialty_id
 		],
-	
+		
 		['%d', '%d']
-		);
-
+	);
+	
 
 		if ( isset($_POST['source']) ) {
 		$type_content = 0; //Тип контента url
@@ -82,7 +86,7 @@ function testAjax()
 			"source" => $source, //надо решить вопрос с сохранением ссылки.
 			"type" => $type_content,
 			"competitor_id" => $competitor_id
-			],
+		],
 		
 			['%s', '%d', '%d']
 			);
@@ -135,10 +139,7 @@ function testAjax()
 		// $compositionsArray = json_decode($_POST['compositions']);
 
 
-		$testArr =  ( $_POST["compositions2"]  );
-		$testArr = stripcslashes ($testArr);
 		
-		echo( json_decode($testArr) );
 
 		// print_r($_POST);
 	exit;

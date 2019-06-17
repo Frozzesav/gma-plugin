@@ -14,6 +14,7 @@ function get_results_func()
            CCU.source AS sourceUrl,
            CCF.source AS sourceFile,
            IFNULL(S_MAIN.name, S_CURRENT.name) AS specialty,
+           C.compositions AS compositions,
            C.city AS city,
            C.telephone AS tel,
            C.age_category AS ageCategory
