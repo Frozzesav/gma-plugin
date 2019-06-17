@@ -135,9 +135,12 @@ function testAjax()
 		// $compositionsArray = json_decode($_POST['compositions']);
 
 
-		// $testArr =  ( $_POST["compositions"]  );
-		// var_dump ((stripslashes($testArr));
-		// print_r( $compositionsArray );
+		$testArr =  ( $_POST["compositions2"]  );
+		$testArr = stripcslashes ($testArr);
+		
+		echo( $testArr );
+
+		// print_r($_POST);
 	exit;
 }
 
