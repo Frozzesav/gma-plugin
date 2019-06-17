@@ -1,3 +1,4 @@
+//тестовые изменения чтобы коммитнулось хуй
 jQuery(document).ready(function(){
     jQuery('.showCompetitors').on('click', function(){
         var competitionId = jQuery('#competitionResults').val();
