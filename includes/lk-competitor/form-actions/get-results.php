@@ -8,7 +8,7 @@ function get_results_func()
 
     global $wpdb;
 	$sql = "
-    
+     
     SELECT C.id AS id,
            MU.name AS name,
            CCU.source AS sourceUrl,
