@@ -59,7 +59,7 @@ function testAjax()
 			
 		],
 	
-	['%d', '%d', '%s', '%s', '%d', '%s', '%d']
+	['%d', '%d', '%s', '%s', '%s',  '%d', '%s', '%d']
 );
 
 	$competitor_id =  $wpdb->insert_id;
@@ -141,7 +141,7 @@ function testAjax()
 
 		
 
-		// print_r($_POST);
+		print_r($_POST['city']);
 	exit;
 }
 

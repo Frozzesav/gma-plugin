@@ -22,33 +22,37 @@ jQuery(document).ready(function(){
                         jQuery('#loader').hide();
                         var competitors = JSON.parse(data);
                         console.log(data);
+                        let hasFiles = competitors.some(x => x.sourceFile);
                         var competitorsInfo = 
                         '<table> \
                             <tr> \
                                 <td>№</td> \
-                                <td>Ссылка</td> \
-                                <td>Файл</td> \
-                                <td>ФИО</td> \
+                                <td>Ссылка</td>' +
+                                (hasFiles ? '<td>Файл</td>' : '') +
+                                '<td>ФИО</td> \
                                 <td>Специальность</td> \
                                 <td>Город</td> \
+                                <td>Программа</td> \
                             </tr>';
-                        var keys = Object.keys(competitors);
-                        var i = 1; 
-                        keys.forEach(function(key){ 
+                        
+                            competitors.forEach(function(item, i){ 
                             competitorsInfo += 
                             '<tr>' +
-                            '<td>' + i++ + '</td>' +
-                            (competitors[key].sourceUrl ? 
-                                ('<td data-source-type="'+competitors[key].type+'"><a href="' +competitors[key].sourceUrl + '" target="_blank" rel="noopener noreferrer">Ссылка</a></td>')
+                            '<td>' + (i+1) + '. ' + '</td>' +
+                            (item.sourceUrl ? 
+                                ('<td data-source-type="'+item.type+'"><a href="' +item.sourceUrl + '" target="_blank" rel="noopener noreferrer">Ссылка</a></td>')
                                 : '<td>- - -</td>')
                             + 
-                            (competitors[key].sourceFile ?
-                                ('<td data-source-type="'+competitors[key].type+'"><a href="' +competitors[key].sourceFile + '" target="_blank" rel="noopener noreferrer">Файл</a></td>')
-                                : '<td>- - -</td>')
+                            (hasFiles ? 
+                                (item.sourceFile ?
+                                    ('<td data-source-type="'+item.type +'"><a href="' +item.sourceFile + '" target="_blank" rel="noopener noreferrer">Файл</a></td>')
+                                    : '<td>- - -</td>')
+                                : '')
                             + 
-                            '<td>' + competitors[key].name + '</td>' +
-                            '<td>' + competitors[key].specialty + '</td>' +
-                            '<td>' + competitors[key].city + '</td>' +
+                            '<td>' + item.name + '</td>' +
+                            '<td>' + item.specialty + '</td>' +
+                            '<td>' + item.city + '</td>' +
+                            '<td>' + JSON.parse(item.compositions).map((x, index) => '<div>' + (index+1) + '. ' + x + ';</div>').join('') + '</td>' +
                             '</tr>';
                         });
                         competitorsInfo += '</table>';

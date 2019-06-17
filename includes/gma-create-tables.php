@@ -13,6 +13,7 @@ function gma_install (){
 	$gma_competitor = $wpdb->prefix . "gma_competitor";
 	$gma_musicians_of_user = $wpdb->prefix . "gma_musicians_of_user";
 	$gma_jury = $wpdb->prefix . "gma_jury";
+	$gma_jury_specialty = $wpdb->prefix . "gma_jury_specialty";
 	$gma_person = $wpdb->prefix . "gma_person";
 	$gma_scores = $wpdb->prefix . "gma_scores";
 	$gma_specialty = $wpdb->prefix . "gma_specialty";
@@ -144,6 +145,7 @@ function gma_install (){
 
 	       $sql[] = "CREATE TABLE " . $gma_jury . " (
 			id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+			fio varchar(128) NOT NULL,
 			user_id bigint(20) UNSIGNED NOT NULL,
 			competition_id int(10) UNSIGNED NOT NULL,
 			specialty_id int(10) UNSIGNED NOT NULL,
@@ -154,6 +156,17 @@ function gma_install (){
 		)";
 		}
 
+		if($wpdb->get_var("SHOW TABLES LIKE '$gma_jury_specialty'") != $gma_jury_specialty) {
+
+	        $sql[] = "CREATE TABLE " . $gma_jury_specialty . " (
+			jury_id int(10) UNSIGNED NOT NULL,
+			specialty_id int(10) UNSIGNED NOT NULL,
+			competition_id int(10) UNSIGNED NOT NULL,
+	        FOREIGN KEY (competition_id) REFERENCES ". $gma_competition ."(ID),
+	        FOREIGN KEY (jury_id) REFERENCES ". $gma_jury ."(ID),
+	        FOREIGN KEY (specialty_id) REFERENCES ". $gma_specialty ."(ID)
+		)";
+		}
 
 	   if($wpdb->get_var("SHOW TABLES LIKE '$gma_scores'") != $gma_scores) {
 

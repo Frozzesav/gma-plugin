@@ -45,7 +45,7 @@ LEFT JOIN wp_gma_competitor_content CCF
        AND IFNULL(S_MAIN.id, S_CURRENT.id) = $specialty_id
         ";
     
-    $queryArray = $wpdb->get_results($sql, OBJECT_K);
+    $queryArray = $wpdb->get_results($sql, ARRAY_A);
 
     
     // if ( current_user_can ('jury') ) {
