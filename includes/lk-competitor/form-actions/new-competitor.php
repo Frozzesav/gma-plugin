@@ -138,7 +138,7 @@ function testAjax()
 		$testArr =  ( $_POST["compositions2"]  );
 		$testArr = stripcslashes ($testArr);
 		
-		echo( $testArr );
+		echo( json_decode($testArr) );
 
 		// print_r($_POST);
 	exit;
