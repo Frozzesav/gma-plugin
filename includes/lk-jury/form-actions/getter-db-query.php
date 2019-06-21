@@ -25,9 +25,12 @@ function getCurrentCompetitions()
 			 AND beforeStart > 0
 			 AND enabled = 1 
 			  
-		GROUP BY J.competition_id --ПРАВИЛЬНО ЛИ Я СДЕЛАЛ? ЧТОБЫ не отображалось по 2 раза 
+		GROUP BY J.competition_id
 			 ";
-	
+			 //--ПРАВИЛЬНО ЛИ Я СДЕЛАЛ? ЧТОБЫ не отображалось по 2 раза и в спец тоже??
+
+
+
 	$queryArray = $wpdb->get_results($sql, ARRAY_A); 
 	return $queryArray;
 }
@@ -52,7 +55,7 @@ function getCurrentSpecialties()
 		WHERE removed = 0 
 			AND parent_id IS NULL
 			
-		GROUP BY CS.specialty_id --ПРАВИЛЬНО ЛИ Я СДЕЛАЛ? ЧТОБЫ не отображалось по 2 раза спец ФОно
+		GROUP BY CS.specialty_id 
 			";
 	
 	$queryArray = $wpdb->get_results($sql, ARRAY_A);
