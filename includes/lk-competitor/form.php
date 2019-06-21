@@ -1,5 +1,4 @@
 <?php
-require_once ('form-actions/getter-db-query.php');
 add_action( 'wp_enqueue_scripts', 'newMusician' );
 add_action('wp_enqueue_scripts', 'test_ajax', 99);
 
@@ -272,7 +271,7 @@ if ( is_user_logged_in() ) {
 
 <div id="center"><br /><input type="submit" value="Отправить" name="">
 
-<div id="loader" style="width:100%; height:100%; position:relative; madrgin:auto; display:none; opacity:0.5">
+<div id="loader" style="width:100%; height:100%; position:relative; margin:auto; display:none; opacity:0.5">
 	<img src="<?php global $plugin_url; echo $plugin_url . "/includes/lk-competitor/img/ajax-loader.gif" ?>">
 </div>
 

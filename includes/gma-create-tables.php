@@ -88,6 +88,7 @@ function gma_install (){
 
 	       $sql[] = "CREATE TABLE " . $gma_competitor . " (
 			id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+			musician_id int(10) UNSIGNED NOT NULL,
 			compositions varchar(128) NOT NULL,
 			timeCompositions tinyint(10),
 			teacher varchar(128) NULL,
@@ -96,7 +97,6 @@ function gma_install (){
 			telephone varchar(10) NOT NULL,
 			city varchar(256) NOT NULL,
 			user_id bigint(20) UNSIGNED NOT NULL,
-			musician_id int(10) UNSIGNED NOT NULL,
 			competition_id int(10) UNSIGNED NOT NULL,
 			age_category varchar(2) NOT NULL,
 			isConfirm tinyint(1) NOT NULL,
@@ -173,12 +173,10 @@ function gma_install (){
 	       $sql[] = "CREATE TABLE " . $gma_scores . " (
 			competitor_id int(10) UNSIGNED NOT NULL,
 			competition_id int(10) UNSIGNED NOT NULL,
-			user_id bigint(20) UNSIGNED NOT NULL,
 			jury_id int(10) UNSIGNED NOT NULL,
 			score float(10) UNSIGNED NULL,
 	        FOREIGN KEY (competitor_id) REFERENCES ". $gma_competitor ."(id),
 	        FOREIGN KEY (competition_id) REFERENCES ". $gma_competition ."(id),
-	        FOREIGN KEY (user_id) REFERENCES ". $wp_users ."(ID),
 	        FOREIGN KEY (jury_id) REFERENCES ". $gma_jury ."(id)
 		)";
 		}
@@ -234,6 +232,14 @@ function gma_install_data() {
 		foreach ($sub_specialty as $key => $sub_spec) {
 		$wpdb->insert($gma_specialty, [ 'parent_id' => $key_vocal, 'name' => $sub_spec ], ['%d', '%s'] );
 			}
+
+		$sub_specialty = array(
+			'Собственное сочинений',
+			'Аранжировка');
+		$key_compositor = array_search('Композиторы', $spec);
+		foreach ($sub_specialty as $key => $sub_spec) {
+		$wpdb->insert($gma_specialty, [ 'parent_id' => $key_compositor, 'name' => $sub_spec ], ['%d', '%s'] );
+			}
 	
 
 	$gma_nomination = $wpdb->prefix . "gma_nomination";
@@ -259,6 +265,7 @@ function gma_uninstall()
 		$gma_tables = [
 	   	$wpdb->prefix . "gma_competition_specialty",
 		$wpdb->prefix . "gma_scores",
+		$wpdb->prefix . "gma_jury_specialty",
 		$wpdb->prefix . "gma_jury",
 		$wpdb->prefix . "gma_person",
 		$wpdb->prefix . "gma_specialty_for_competitor",
@@ -267,8 +274,8 @@ function gma_uninstall()
 		$wpdb->prefix . "gma_nomination_for_specialty",
 		$wpdb->prefix . "gma_nomination",
 		$wpdb->prefix . "gma_specialty",
-		$wpdb->prefix . "gma_competition",
-		$wpdb->prefix . "gma_musicians_of_user"
+		$wpdb->prefix . "gma_musicians_of_user",
+		$wpdb->prefix . "gma_competition"
 		];	
 			
 			foreach ($gma_tables as $gma_table) {

@@ -3,7 +3,7 @@
 
 add_action( 'wp_enqueue_scripts', 'newMusician' );
 add_action( 'wp_enqueue_scripts', 'gma_plugin_styles' );
-add_action('wp_enqueue_scripts', 'get_results_ajax', 99);
+// add_action('wp_enqueue_scripts', 'get_results_ajax', 99);
 
 gma_plugin_styles();
 wp_enqueue_style('gma-style-bootstrap');

@@ -1,4 +1,5 @@
 <?php 
+//доБАВИТЬ В ЗАПРОС оценки если Current user JURY
 
 add_action('wp_ajax_getResults', 'get_results_func');
 function get_results_func()

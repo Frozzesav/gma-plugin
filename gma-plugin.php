@@ -42,7 +42,8 @@ require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/lk-competitor.p
 require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form.php';
 require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form-actions/new-competitor.php';
 require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form-actions/get-results.php';
-require_once plugin_dir_path(__FILE__) . 'includes/classes/lk-jury.php';
+require_once plugin_dir_path(__FILE__) . 'includes/lk-jury/form-actions/set-data-jury.php';
+// require_once plugin_dir_path(__FILE__) . 'includes/classes/lk-jury.php';
 require_once plugin_dir_path(__FILE__) . 'includes/classes/login.php';
 require_once plugin_dir_path(__FILE__) . 'includes/gma-create-tables.php';
 
@@ -67,6 +68,18 @@ function test_ajax() {
 
 function get_results_ajax() {
 	wp_enqueue_script('jquery.validate.min', plugins_url('/includes/lk-competitor/js/jquery.validate.min.js', __FILE__), array('jquery'));
-	wp_enqueue_script('get-results-ajax', plugins_url('/includes/lk-competitor/js/get-results-ajax.js', __FILE__), array('jquery', 'jquery.validate.min'));
+
+	if (is_page('48937') || is_page('48930') ) {
+		wp_enqueue_script('get-results-ajax', plugins_url('/includes/lk-competitor/js/get-results-ajax.js', __FILE__), array('jquery', 'jquery.validate.min'));
+		require_once ('includes/lk-competitor/form-actions/getter-db-query.php');
+	}
+	
+	if (is_page('48935')) {
+		require_once ('includes/lk-jury/form-actions/getter-db-query.php');
+		wp_enqueue_script('get-results-ajax', plugins_url('/includes/lk-jury/js/get-results-ajax.js', __FILE__), array('jquery', 'jquery.validate.min'));
+		wp_enqueue_script('editTable', plugins_url('/includes/lk-jury/js/editTable.js', __FILE__), array('jquery','get-results-ajax', 'jquery.validate.min'));
+	}
+	
 }
+add_action('wp_enqueue_scripts', 'get_results_ajax', 99);
 

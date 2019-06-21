@@ -6,7 +6,6 @@
 add_action('wp_ajax_testAjax', 'testAjax');
 function testAjax()
 {
-	$cur_user_id = get_current_user_id();
 	
 	global $wpdb;
 	global	$current_user;

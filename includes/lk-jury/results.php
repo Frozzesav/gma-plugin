@@ -2,10 +2,10 @@
 Если больше 9, то давать выбрать только хор или оркестр.
 </h6> -->
 <?php
-add_action('wp_enqueue_scripts', 'get_results_ajax', 99);
+// add_action('wp_enqueue_scripts', 'get_results_ajax', 99);
 ?>
 
-<div id="loader" style="width:100%; height:100%; position:relative; madrgin:auto; display:none; opacity:0.5">
+<div id="loader" style="width:100%; height:100%; position:relative; margin:auto; display:none; opacity:0.5">
 	<img src="<?php global $plugin_url; echo $plugin_url . "/includes/lk-competitor/img/ajax-loader.gif" ?>">
 </div>
 <h3>Здесь будут результаты</h3>
@@ -60,7 +60,7 @@ add_action('wp_enqueue_scripts', 'get_results_ajax', 99);
 		</select> <br />
 	
 </div>
-<div id="loader" style="width:100%; height:100%; position:relative; madrgin:auto; display:none; opacity:0.5">
+<div id="loader" style="width:100%; height:100%; position:relative; margin:auto; display:none; opacity:0.5">
 	<img src="<?php global $plugin_url; echo $plugin_url . "/includes/lk-competitor/img/ajax-loader.gif" ?>">
 </div>
 
@@ -70,4 +70,7 @@ add_action('wp_enqueue_scripts', 'get_results_ajax', 99);
 
 <div id="results">
 </div>	
+
+
+
 
