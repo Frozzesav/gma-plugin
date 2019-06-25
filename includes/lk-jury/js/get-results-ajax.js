@@ -5,13 +5,12 @@ jQuery(document).ready(function(){
         jQuery('#loader').show();
     
         if (competitionId != null) {
-        
             
             jQuery.ajax({
                     url: gmaPlugin.ajaxurl, 
                     type: "POST",             
                     data: {
-                        action: 'getResults',
+                        action: 'getResultsJury',
                         competitionId: competitionId,
                         specialtyId: specialtiesResults
                     },
@@ -40,8 +39,8 @@ jQuery(document).ready(function(){
                             competitorsInfo += 
                             '<tr>' +
                             '<td>' + (i+1) + '</div></td>' +
-                            '<td><input value="22"  type="number max="25" " class="edit" id="competitor-value-'+ item.id +'" data-competitor-id="'+ item.id +'" ><br><button class="ok" onclick="javascript: saveScore(' + item.id + ');" style="display:none">Ok</button><button class="cancel" style="display:none">Отмена</button></td>' +
-                            '<td> <div class="edit"  data-competitor-id="'+ item.id +'"  contenteditable></div><button class="ok" style="display:none">Ok</button><button class="cancel" style="display:none">Отмена</button></td>' +
+                            '<td><input value="' + item.score + '"  type="number max="25" " class="edit" id="competitor-value-'+ item.id +'" data-competitor-id="'+ item.id +'" ><br><button class="ok" onclick="javascript: saveScore(' + item.id + ');" style="display:none">Ok</button><button class="cancel" onclick="javascript: cancel();" style="display:none">Отмена</button></td>' +
+                            '<td><div class="edit" contenteditable  id="competitor-comment-'+ item.id +'">' + item.comment + '</div><br><button class="ok" onclick="javascript: saveScore(' + item.id + ');" style="display:none">Ok</button><button class="cancel" onclick="javascript: cancel();" style="display:none">Отмена</button><br></td>' +
                             (item.sourceUrl ? 
                                 ('<td data-source-type="'+item.type+'"><a href="' +item.sourceUrl + '" target="_blank" rel="noopener noreferrer">Ссылка</a></td>')
                                 : '<td>- - -</td>')
@@ -59,6 +58,7 @@ jQuery(document).ready(function(){
                             '</tr>';
                         });
                         competitorsInfo += '</table>';
+
                         
                         if (data != '[]') {
                             
@@ -70,22 +70,23 @@ jQuery(document).ready(function(){
                         
                         
                         var oldVal;
-                        var editId;
+                        var editId; // они тут используютя?????
                         
                         jQuery('.edit').focus(function(){
+                            // jQuery('.edit').nextAll('button').hide(120);
                             jQuery(this).nextAll('button').show(100);
                             oldVal = jQuery(this).val();
                             editId = jQuery(this).attr('data-competitor-id');
                         });
 
+                        // jQuery('.edit').blur(function(){
+                        //     jQuery('.edit').nextAll('button').hide(120);
+                        //     // jQuery(this).nextAll('button').show(100);
+                        // });
+
 
                         var newVal;
 
-                        jQuery('.cancel').click(function(){
-                                jQuery('.edit').nextAll('button').hide(100);
-                                console.log('Нажал Отмена');
-                        });
-                        
                        
                     },
                     error: function(data) {
@@ -103,22 +104,23 @@ jQuery(document).ready(function(){
         
     });
     
-    function ajaxSetScore(id, val, competitionId) {
+    function ajaxSetScore(id, val, comment, competitionId) {
         
         jQuery.ajax({
             url: gmaPlugin.ajaxurl, 
             type: "POST",             
             data: {
                 action: 'setDataJury',
-                competitionId: 1,
+                competitionId: competitionId,
                 competitorId: id,
                 score: val,
-                competitionId: competitionId
+                comment: comment
             },
             cache: false,             
             processData: true,      
             success: function(data) {
                 jQuery('#loader').hide();
+                alert ("Данные сохранены");
                 console.log(data);
             },
             error: function(data) {
@@ -129,15 +131,52 @@ jQuery(document).ready(function(){
         });   
     }
 
+    
     function saveScore(competitorId) {
         var competitionId = jQuery('#competitionResults').val();
         var newVal = jQuery('#competitor-value-'+ competitorId).val();
 
+        var newComment = jQuery('#competitor-comment-'+ competitorId).html();
+
         newVal = parseFloat(newVal.replace(',','.').replace(' ','')).toFixed(2);
 
-        // newVal = parseFloat(newVal).toFixed(2);
-        console.log(typeof(newVal));
         
-        ajaxSetScore(competitorId, newVal, competitionId);
+        ajaxSetScore(competitorId, newVal, newComment, competitionId);
         jQuery('.edit').nextAll('button').hide(100); 
+    }
+
+    function ajaxGetScore(id, competitionId) {
+
+    jQuery.ajax({
+        url: gmaPlugin.ajaxurl, 
+        type: "POST",             
+        data: {
+            action: 'getDataJury',
+            competitionId: competitionId,
+            competitorId: id
+        },
+        cache: false,             
+        processData: true,      
+        success: function(data) {
+            jQuery('#loader').hide();
+            console.log(data);
+            
+        },
+        error: function(data) {
+            jQuery('#loader').hide();
+            alert('Что то пошлое не так. Напишите на наш email: music-competiiton@yandex.ru')
+            console.log(data);
+        }
+    });   
+    }
+
+
+    function cancel(id) {
+        jQuery('.cancel').click(function(){
+          
+            // jQuery('#competitor-value-'+ competitorId).val();
+            jQuery('.edit').nextAll('button').hide(100); // КАК сделать отмн
+            // jQuery('#competitor-comment-2').nextAll('button').hide()
+            // console.log('Нажал Отмена');
+    });
     }

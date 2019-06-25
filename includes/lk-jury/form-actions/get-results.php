@@ -1,8 +1,7 @@
 <?php 
-//доБАВИТЬ В ЗАПРОС оценки если Current user JURY
 
-add_action('wp_ajax_getResults', 'get_results_func');
-function get_results_func()
+add_action('wp_ajax_getResultsJury', 'get_results_jury_func');
+function get_results_jury_func()
 {
     $competition_id = $_POST['competitionId'];
     $specialty_id = $_POST['specialtyId'];
@@ -18,13 +17,12 @@ function get_results_func()
 	$sql = "
      
     SELECT C.id AS id,
+           IFNULL (S.score, '') AS score,
+           IFNULL(S.comments, '') AS comment,
            MU.name AS name,
            CCU.source AS sourceUrl,
            CCF.source AS sourceFile,
-           CASE 
-            WHEN S_MAIN.name IS NOT NULL THEN CONCAT(S_MAIN.name, ' (', S_CURRENT.name, ')') 
-            ELSE S_CURRENT.name END AS specialty,
-           CONCAT(IFNULL(CONCAT(S_MAIN.name, ', '), ''), S_CURRENT.name) AS specialty1,
+           IFNULL(S_MAIN.name, S_CURRENT.name) AS specialty,
            C.compositions AS compositions,
            C.city AS city,
            C.telephone AS tel,
@@ -54,6 +52,9 @@ LEFT JOIN wp_gma_competitor_content CCF
 
 LEFT JOIN wp_gma_scores S
         ON S.competitor_id = C.id
+      AND S.jury_id = $current_jury_id
+
+
     
      WHERE C.competition_id = $competition_id
        AND IFNULL(S_MAIN.id, S_CURRENT.id) = $specialty_id

@@ -18,10 +18,9 @@ jQuery(document).ready(function(){
                     cache: false,             
                     processData: true,      
                     success: function(data) {
-                        console.log(data);
                         jQuery('#loader').hide();
                         var competitors = JSON.parse(data);
-                        console.log(data);
+                        console.log(competitors);
                         let hasFiles = competitors.some(x => x.sourceFile);
                         var competitorsInfo = 
                         '<table> \
@@ -68,7 +67,6 @@ jQuery(document).ready(function(){
                     error: function(data) {
                         jQuery('#loader').hide();
                         alert('Что то пошлое не так. Напишите на наш email: music-competiiton@yandex.ru')
-                        console.log(data);
                     }
                 });
             } else {

@@ -25,21 +25,20 @@ add_shortcode( 'gma_lk_jury', 'gma_lk_jury_func' );
         
 
 <div class="tabs">
-
+    
     <input id="tab1" type="radio" name="tabs" checked>
-    <label for="tab1" title="Заполнить заявку">Заполнить заявку</label>
-   
+    <label for="tab1" title="Участники">Участники</label>
+
     <input id="tab2" type="radio" name="tabs">
-    <label for="tab2" title="Участники">Участники</label>
+    <label for="tab2" title="Заполнить заявку">Заполнить заявку</label>
  
     <section id="content-tab1">
         <p>
-
+            <?php include('results.php') ?>
         </p>
     </section>  
     <section id="content-tab2">
         <p>
-        <?php include('results.php') ?>
         </p>
     </section> 
         

@@ -42,34 +42,20 @@
 
 
 
-	padding: 12px 5px;
-
-
+	/* padding: 12px 5px; */
 
 }
 
 
 
 .zebra tr{
-
-
-
 	transition: all .5s;
-
-
-
 }
 
 
 
 .zebra tr:hover{
-
-
-
-	/*background: #f1f1f1;*/
-
-
-
+	background: #f1f1f1;
 }
 
 
@@ -80,40 +66,18 @@
 
 .edit{
 
-
-
-	padding: 3px;
-
-
-
-	transition: all .5s;
-
-
-
-	border: 1px solid rgba(82, 168, 236, .5);
-
-
-
+	padding: 3px !important;
+	transition: all .5s !important;
+	border: 1px solid rgba(82, 168, 236, .5) !important;
 }
 
 
 
 .edit:focus{
 
-
-
 	border: 1px solid rgba(82, 168, 236, 1);
-
-
-
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(82, 168, 236, 0.9);
-
-
-
 	outline: 0 none;
-
-
-
 }
 
 
@@ -346,6 +310,22 @@
 	width: 50%;
 	position:relative;
 	margin: auto;
+}
+
+.showCompetitors {
+	border:0px solid transparent;
+	background-color: #f40000;
+	color: white;
+	display: inline-block;
+	font-size: 150%;
+	padding: 0.3em 1em!important;
+	cursor: pointer;
+	margin-bottom:5px;
+}
+
+.showCompetitors:hover {
+	background-color: rgb(255, 15, 15);
+	
 }
 
 #newCompetitorForm input[type=button], input[type=submit]  {

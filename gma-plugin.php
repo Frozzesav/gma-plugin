@@ -37,17 +37,17 @@ function gma_plugin_js() {
 	}
 
 require_once plugin_dir_path(__FILE__) . 'includes/gma-functions.php';
-// require_once plugin_dir_path(__FILE__) . 'includes/gma-add-new-fields-role.php'; Для настройки специальности у пользователя
 require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/lk-competitor.php';
 require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form.php';
 require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form-actions/new-competitor.php';
 require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form-actions/get-results.php';
+require_once plugin_dir_path(__FILE__) . 'includes/lk-jury/form-actions/get-results.php';
 require_once plugin_dir_path(__FILE__) . 'includes/lk-jury/form-actions/set-data-jury.php';
-// require_once plugin_dir_path(__FILE__) . 'includes/classes/lk-jury.php';
-require_once plugin_dir_path(__FILE__) . 'includes/classes/login.php';
+// require_once plugin_dir_path(__FILE__) . 'includes/classes/login.php'; // Пока отключил, чтобы не было конфликта с плагином TML
 require_once plugin_dir_path(__FILE__) . 'includes/gma-create-tables.php';
 
 require_once plugin_dir_path(__FILE__) . 'includes/lk-jury/lk-jury.php';
+
 
 
 

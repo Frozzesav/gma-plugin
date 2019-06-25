@@ -175,6 +175,7 @@ function gma_install (){
 			competition_id int(10) UNSIGNED NOT NULL,
 			jury_id int(10) UNSIGNED NOT NULL,
 			score float(10) UNSIGNED NULL,
+			comments varchar(1024) NULL,
 	        FOREIGN KEY (competitor_id) REFERENCES ". $gma_competitor ."(id),
 	        FOREIGN KEY (competition_id) REFERENCES ". $gma_competition ."(id),
 	        FOREIGN KEY (jury_id) REFERENCES ". $gma_jury ."(id)
