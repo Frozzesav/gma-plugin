@@ -25,7 +25,7 @@ function newMusician()
 }
 
 function gma_plugin_styles() {
-	wp_register_style('gma-style', plugins_url('css/style.css', __FILE__));
+	wp_register_style('gma-style', plugins_url('css/style.css', __FILE__), array(), 5.4);
 	wp_enqueue_style('gma-style');
 	}
 
@@ -43,10 +43,16 @@ require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form-actions/ne
 require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form-actions/get-results.php';
 require_once plugin_dir_path(__FILE__) . 'includes/lk-jury/form-actions/get-results.php';
 require_once plugin_dir_path(__FILE__) . 'includes/lk-jury/form-actions/set-data-jury.php';
+require_once plugin_dir_path(__FILE__) . 'includes/lk-jury/lk-jury.php';
+
+require_once plugin_dir_path(__FILE__) . 'includes/lk-admin/form-actions/get-results.php';
+require_once plugin_dir_path(__FILE__) . 'includes/lk-admin/form-actions/set-data-admin.php';
+require_once plugin_dir_path(__FILE__) . 'includes/lk-admin/lk-gma-admin.php';
+
+
 // require_once plugin_dir_path(__FILE__) . 'includes/classes/login.php'; // Пока отключил, чтобы не было конфликта с плагином TML
 require_once plugin_dir_path(__FILE__) . 'includes/gma-create-tables.php';
 
-require_once plugin_dir_path(__FILE__) . 'includes/lk-jury/lk-jury.php';
 
 
 
@@ -54,7 +60,7 @@ require_once plugin_dir_path(__FILE__) . 'includes/lk-jury/lk-jury.php';
 
 register_activation_hook( __FILE__, 'gma_install' );
 register_activation_hook( __FILE__, 'gma_install_data' );
-register_deactivation_hook( __FILE__, 'gma_uninstall' );
+// register_deactivation_hook( __FILE__, 'gma_uninstall' );
 
 
 
@@ -70,7 +76,7 @@ function get_results_ajax() {
 	wp_enqueue_script('jquery.validate.min', plugins_url('/includes/lk-competitor/js/jquery.validate.min.js', __FILE__), array('jquery'));
 
 	if (is_page('48937') || is_page('48930') ) {
-		wp_enqueue_script('get-results-ajax', plugins_url('/includes/lk-competitor/js/get-results-ajax.js', __FILE__), array('jquery', 'jquery.validate.min'));
+		wp_enqueue_script('get-results-ajax', plugins_url('/includes/lk-competitor/js/get-results-ajax.js', __FILE__), array('jquery', 'jquery.validate.min'), 5.4);
 		require_once ('includes/lk-competitor/form-actions/getter-db-query.php');
 	}
 	
@@ -78,6 +84,12 @@ function get_results_ajax() {
 		require_once ('includes/lk-jury/form-actions/getter-db-query.php');
 		wp_enqueue_script('get-results-ajax', plugins_url('/includes/lk-jury/js/get-results-ajax.js', __FILE__), array('jquery', 'jquery.validate.min'));
 		wp_enqueue_script('editTable', plugins_url('/includes/lk-jury/js/editTable.js', __FILE__), array('jquery','get-results-ajax', 'jquery.validate.min'));
+	}
+	
+	if (is_page('48965')) {
+		require_once ('includes/lk-admin/form-actions/getter-db-query.php');
+		wp_enqueue_script('get-results-ajax', plugins_url('/includes/lk-admin/js/get-results-ajax.js', __FILE__), array('jquery', 'jquery.validate.min'));
+		wp_enqueue_script('editTable', plugins_url('/includes/lk-admin/js/editTable.js', __FILE__), array('jquery','get-results-ajax', 'jquery.validate.min'));
 	}
 	
 }

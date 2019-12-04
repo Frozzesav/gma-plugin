@@ -4,6 +4,13 @@ add_action('wp_ajax_getDataJury', 'get_data_jury_func');
 
 function set_data_jury_func()
 { 
+
+  // $_GET       = array_map('stripslashes_deep', $_GET);
+  $_POST      = array_map('stripslashes_deep', $_POST);
+  // $_COOKIE    = array_map('stripslashes_deep', $_COOKIE);
+  // $_SERVER    = array_map('stripslashes_deep', $_SERVER);
+  // $_REQUEST   = array_map('stripslashes_deep', $_REQUEST);
+
   global $wpdb;
   global	$current_user;
   $current_user_id = $current_user->id;
@@ -13,6 +20,9 @@ function set_data_jury_func()
   
 
 $current_jury_id = $wpdb->get_var( "SELECT id FROM `wp_gma_jury` WHERE user_id = $current_user_id" );
+
+$oldData = $wpdb->get_var( "SELECT COUNT(*) FROM wp_gma_scores WHERE competitor_id = $competitor_id AND jury_id = $current_jury_id;" );
+
 
 $score = $_POST['score'];
 $comment = $_POST['comment'];
@@ -28,21 +38,23 @@ $competitor_results = $wpdb->get_row(
   AND jury_id = $current_jury_id", ARRAY_A);
   
   $oldScore = $competitor_results['score'];
-  $oldComment =  $competitor_results['comment'];
+  $oldComment = serialize($competitor_results['comment']);
 
-  if ($oldScore != $score) {
-    $score;
-  } else {
-    $score = $oldScore;
-  }
+  // if ($oldScore != $score) {
+  //   $score;
+  // } else {
+  //   $score = $oldScore;
+  // }
   
-  if ($oldComment != $comment) {
-    $comment;
-  } else {
-    $comment = $oldComment;
-  }
+  // if ($oldComment != $comment) {
+  //   $comment;
+  // } else {
+  //   $comment = $oldComment;
+  // }
+
+  //КАк сделать проверку если не стоит еще балл или коммент??? Нужно сделать запрос, где ID jury и ID competitor нет в таблице
  
-if( $competitor_results != NULL && $oldScore != NULL || $oldComment != NULL )
+if( $oldData != 0 )
   {
     $wpdb->update(
       'wp_gma_scores',
@@ -86,7 +98,7 @@ if( $competitor_results != NULL && $oldScore != NULL || $oldComment != NULL )
   }
 
 
-print_r($_POST);
+var_dump($oldData);
   exit;
 }
 

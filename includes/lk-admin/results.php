@@ -5,24 +5,18 @@
 // add_action('wp_enqueue_scripts', 'get_results_ajax', 99);
 ?>
 
-<div style="display:block;margin: auto;">
-	<button class="showJuryDetails" style="heigth:20px;" >Узнать свой балл</button>
-	<span><button class="getDiploma" style="heigth:20px;" >Скачать диплом</button></span>
+<div id="loader" style="width:100%; height:100%; position:relative; margin:auto; display:none; opacity:0.5">
+	<img src="<?php global $plugin_url; echo $plugin_url . "/includes/lk-competitor/img/ajax-loader.gif" ?>">
 </div>
-
-<div id="getDiploma" style="display:none;"></div>
-<div id="juryDetails" style="display:none;">
-<b >Максимальный балл - 25</b></div><br>
-<b>Если не отображаются результаты, следует очистить кэш браузера за всё время <a href="https://help.mail.ru/mail-help/helpful/cache" target="_blank">Как очистить кэш?</a></b>
-
+<h3>Здесь будут результаты</h3>
 <b>Выберите конкурс</b><br />
-
+ 
 <div id="competitionResultsContainer">
 	<select id="competitionResults" name="competition" size="1" class="required">
 		<option value="0" id="0" disabled selected>--- Выберите конкурс ---</option>
 		
 		<?php
-			$getCurrentCompetitions = getCurrentCompetitionsForResultsPage();
+			$getCurrentCompetitions = getCurrentCompetitions();
 			
 			foreach ($getCurrentCompetitions as $currentCompetition):?>
 		<?php 
@@ -52,7 +46,7 @@
 
 		<select id="specialtiesResults" name="specialtyResults" size="1" class="required">
 		<option value="0" disabled="" selected="">Выберите специальность</option>
-
+ 
 		<?php $getCurrentSpecialties = getCurrentSpecialties();
 		 foreach ($getCurrentSpecialties as $currentSpecialty):
 			$id = $currentSpecialty['id']; 
@@ -66,15 +60,33 @@
 		</select> <br />
 	
 </div>
-
-
-<div style="width:100px; margin: auto;">
-
-<button class="showCompetitors">Показать</button>
-</div>
-<div id="loader" style="width:200px; height:20px; margin:auto; display:none; opacity:0.5">
+<div id="loader" style="width:100%; height:100%; position:relative; margin:auto; display:none; opacity:0.5">
 	<img src="<?php global $plugin_url; echo $plugin_url . "/includes/lk-competitor/img/ajax-loader.gif" ?>">
 </div>
+
+<div style="width:100px; margin: auto;">
+<button class="showCompetitors">Показать</button>
+</div>
+
+
+<div class="container">
+  <div class="page-header">
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+      </div><!-- form-group -->
+    </div><!-- /col -->
+    <div id="tableGoesHere" class="col-md-6">
+      
+    </div><!-- col -->
+  </div><!-- /row -->
+</div><!-- container -->
+
+
 <div id="results">
 </div>	
+
+
+
 

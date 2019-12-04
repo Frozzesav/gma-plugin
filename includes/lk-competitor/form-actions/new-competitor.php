@@ -1,4 +1,10 @@
-<?php 
+<?php
+/*
+$type_ocntent = 0 - URL
+$type_ocntent = 1 - файл
+
+*/
+
 // header('Content-type: application/json');
 // define('SHORTINIT', true);
 // require_once('../../../../../../wp-config.php'); // подключить, иначе не будет работать Запрос Insert
@@ -8,18 +14,27 @@ function testAjax()
 {
 	
 	global $wpdb;
-	global	$current_user;
+	global	$current_user; // пото нужно ID залогиненого юзера.
+
+	// ПОка веременно по email нахожу Id.
+	$user = get_user_by( 'email', $_POST['user_id'] );
+	$userId = $user->ID;
+
+
+	// $_POST = array_map('stripslashes_deep', $_POST);
 	
 	$birthday = $_POST['birthday'];
 	
 	if ( $_POST['name'] != null ) {
 		$name_musician = $_POST['name'];
+		$name_musician = stripslashes($name_musician);
+		
 		
 		$wpdb->insert(
 			"wp_gma_musicians_of_user",
 			[
 				"name" => "$name_musician", 
-				"user_id" => "{$current_user->id}",
+				"user_id" => $userId,
 				"birthday" => "$birthday", 
 				"removed" => 0
 			],
@@ -38,27 +53,73 @@ function testAjax()
 	
 	$competition_id = $_POST['competitionId'] ;
 	
+	$country = $_POST['country'];
 	$city = $_POST['city'];
 	$telephone = $_POST['telephone'];
+	
+	$postStreet = $_POST['postStreet'];
+	$houseNumber = $_POST['houseNumber'];
+	$flatNumber = $_POST['flatNumber'];
+
 
 	$compositions =  ($_POST["compositions"]);
-	$compositions = stripcslashes ($compositions);
+	$compositions = stripslashes($compositions);
+
+	if ($_POST['getDiploma'] == "byPost") {
+		$address = "$postStreet,  $houseNumber,  $flatNumber,  $city,  $country";
+	} else {
+		$address = NULL;
+		$postStreet = NULL;
+		$houseNumber = NULL;
+		$flatNumber = NULL;
+	}
+
+	$teacher = $_POST['teacher'];
+	$concertmaster = $_POST['concertmaster'];
+	$school = $_POST['school'];
+	$school = stripslashes($school);
+	$timeCompositions = $_POST['timeCompositions'];
+
 	
 	$wpdb->insert(
 		"wp_gma_competitor",
 		[
-			"user_id" => "{$current_user->id}",
+			"user_id" => $userId,
 			"musician_id" => $musician_id,
 			"compositions" => $compositions,
-			"telephone" => $telephone,   // Хранить КАК ЧИСЛО? или СТроку?
+			"telephone" => $telephone,
+			"postIndex" => $_POST['postIndex'],   
 			"city" => $city,  
-			"competition_id" => $competition_id, //Тоже не знаю как получить. Что делать, Если нет конкурсов?
+			"country" => $country,  
+			"address" => $address,  
+			"getDiploma" => $_POST['getDiploma'],  
+			"competition_id" => $competition_id, 
 			"age_category" => "$age_category", 
-			"isConfirm" => 0
-			
+			"isConfirm" => 0,
+			"teacher" => $teacher,
+			"concertmaster" => $concertmaster,
+			"school" => $school,
+			"timeCompositions" => $timeCompositions
 		],
 	
-	['%d', '%d', '%s', '%s', '%s',  '%d', '%s', '%d']
+	[
+		'%d', 
+		'%d', 
+		'%s', 
+		'%s', 
+		'%s', 
+		'%s', 
+		'%s', 
+		'%s',
+		'%s', 
+		'%d',
+		'%s', 
+		'%d',
+		'%s',
+		'%s',
+		'%s',
+		'%d'
+	  ]
 );
 
 	$competitor_id =  $wpdb->insert_id;
@@ -73,6 +134,18 @@ function testAjax()
 		
 		['%d', '%d']
 	);
+
+	$nomination_id = $_POST['nomination'];
+
+	$wpdb->insert(
+		"wp_gma_nomination_for_competitor",
+		[
+			"competitor_id" => $competitor_id,
+			"nomination_id" => $nomination_id
+		],
+		
+		['%d', '%d']
+	);
 	
 
 		if ( isset($_POST['source']) ) {
@@ -82,7 +155,7 @@ function testAjax()
 		$wpdb->insert(
 			"wp_gma_competitor_content",
 			[
-			"source" => $source, //надо решить вопрос с сохранением ссылки.
+			"source" => $source, 
 			"type" => $type_content,
 			"competitor_id" => $competitor_id
 		],
@@ -140,7 +213,12 @@ function testAjax()
 
 		
 
-		print_r($_POST['city']);
+		// print_r($_POST);
+		// echo('<br>');
+		// echo ($address);
+		var_dump($_POST);
+		echo($userId);
+
 	exit;
 }
 

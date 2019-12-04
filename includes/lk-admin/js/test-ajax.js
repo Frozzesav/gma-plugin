@@ -1,28 +1,17 @@
 jQuery(document).ready(function() {
 jQuery('#newCompetitorForm').validate({
-    ignore:":not(:visible)",
     messages: {
         competition: {
             required: "Выберите конкурс"
         },
         specialty: {
             required: "Выберите специальность"
-        },  
-        subSpecialty: {
-            required: "Выберите дополнительную категорию"
-        },
-        category: {
-            required: "Выберите возрастную категорию"
-        },
-        link: {
-            required: "Вставьте ссылку на произведение"
-        }
+            },  
      },
     submitHandler: function(form) {
-        // jQuery("#submit").attr("disabled", true);
-
         if ( jQuery('#new-musician').is(":hidden") ) {
             var newMusicianName = null;
+            
         }
         
         if ( jQuery('#new-musician').is(":visible") && jQuery('#soloOrNot').val() == "solo"
@@ -33,8 +22,6 @@ jQuery('#newCompetitorForm').validate({
         } else { var newMusicianName =  jQuery("#ensemble_name").val().trim(); }
 
         var musiciaId = jQuery('#musicians').val();
-        
-        var user_id = jQuery('#user_id').val();
         
         var competitionId = jQuery('#competition').val();
         
@@ -50,7 +37,7 @@ jQuery('#newCompetitorForm').validate({
             compositions.push(composition2)
         }
         if (composition3) {
-            compositions.push(composition3)
+            compositions.push(composition2)
         }
         
         
@@ -67,9 +54,6 @@ jQuery('#newCompetitorForm').validate({
         } else {
             var specialty = jQuery('#specialties').val();
         }
-
-
-        var nomination = jQuery('#nomination').val(); 
             
         var telephone = jQuery('#telephone').val().replace(/[-+()/\\' ']/g,'');
 
@@ -80,42 +64,29 @@ jQuery('#newCompetitorForm').validate({
         var postStreet = null;
         var houseNumber = null;
         var flatNumber = null;
-
-        var getDiploma = jQuery('#getDiploma').val();
         
-        if (getDiploma == "byPost" ) {
+        if (jQuery("#getDiploma").val() == "byPost" ) {
             postIndex = jQuery('#postIndex').val();
             postStreet = jQuery('#postStreet').val();
             houseNumber = jQuery('#houseNumber').val();
             flatNumber = jQuery('#flatNumber').val();
         }
 
-        var school = jQuery('#school').val().trim();
-        var teacher = (jQuery('#teacher_lastname').val().trim() + " " + jQuery('#teacher_name').val().trim() + " " + jQuery('#teacher_surname').val().trim()).trim();
-        var concertmaster = (jQuery('#concertmaster_lastname').val().trim() + " " + jQuery('#concertmaster_name').val().trim() + " " + jQuery('#concertmaster_surname').val().trim()).trim();
-        var timeCompositions = jQuery('#timeCompositions').val();
-
         var formData = new FormData();
 
         formData.append("action", 'testAjax');
         formData.append("name", newMusicianName);
-        formData.append("school", school);
-        formData.append("teacher", teacher);
-        formData.append("concertmaster", concertmaster);
-        formData.append("timeCompositions", timeCompositions);
-        formData.append("user_id", user_id);
         formData.append("musiciaId", musiciaId);
         formData.append("birthday", birthday);
         formData.append("ageCategory", ageCategory);
         formData.append("compositions", JSON.stringify(compositions)); //"[1, 2, 3]"
         formData.append("source", linkVideo);
+        // formData.append("typeContent", typeContent);
         formData.append("competitionId", competitionId);
         formData.append("specialty", specialty);
-        formData.append("nomination", nomination);
         formData.append("telephone", telephone);
-        formData.append("country", country);
+        formData.append("county", country);
         formData.append("city", city);
-        formData.append("getDiploma", getDiploma);
         formData.append("postIndex", postIndex);
         formData.append("postStreet", postStreet);
         formData.append("houseNumber", houseNumber);
@@ -140,11 +111,9 @@ jQuery('#newCompetitorForm').validate({
                 jQuery('#loader').hide();
                 console.log(data);
                 alert('Заявка заполнена! \n Подтверждение придет на ваш E-mail в течение 24 часов (Проверьте папку \'Спам\')');
-                // jQuery('#newCompetitorForm').hide();
-                // jQuery('#newCompetitorForm')[0].reset();
-                // jQuery('#oneMoreCompetitorContainer').show(500);
             },
             error: function(data) {
+                jQuery('#loader').hide();
                 alert('Что то пошлое не так. Напишите на наш email: music-competiiton@yandex.ru')
                 console.log(data);
             }
@@ -157,11 +126,3 @@ jQuery('#newCompetitorForm').validate({
 });
 
 });
-
-
-function oneMoreCompetitor() {
-        jQuery('#oneMoreCompetitorContainer').hide();
-        jQuery('#newCompetitorForm').slideDown("slow");
-        jQuery("#submit").attr("disabled", false);
-
-}

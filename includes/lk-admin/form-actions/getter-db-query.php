@@ -5,7 +5,7 @@ function getCurrentCompetitions()
 				$nowDate = date('y-m-d');
 				global $wpdb;
 				global	$current_user;
-
+ 
 	$sql = "
 	
 	SELECT C.id AS id,
@@ -17,15 +17,11 @@ function getCurrentCompetitions()
 			C.beforeStart AS beforeStart
 			
 		FROM wp_gma_competition C 
-		 
-		JOIN wp_gma_jury J
-		ON J.competition_id = C.id  
 
-		 WHERE beforeStart < '$nowDate'
+		 WHERE beforeStart < '$nowDate' 
 			 AND beforeStart > 0
 			 AND enabled = 1 
 			  
-		GROUP BY J.competition_id
 			 ";
 
 
@@ -55,12 +51,8 @@ function getCurrentSpecialties()
    		JOIN wp_gma_specialty S
 		ON S.id = CS.specialty_id
 
-		JOIN wp_gma_jury_specialty JS
-		ON JS.specialty_id = S.id  
-
 		WHERE removed = 0 
 			AND parent_id IS NULL
-			AND JS.jury_id = $current_jury_id
 
 		GROUP BY CS.specialty_id 
 			";

@@ -24,23 +24,23 @@ jQuery(document).ready(function(){
                         var competitorsInfo = 
                         '<table> \
                             <tr> \
-                                <td>№</td> \
-                                <td>Балл</td> \
-                                <td>Комментарий</td> \
-                                <td>Ссылка</td>' +
-                                (hasFiles ? '<td>Файл</td>' : '') +
-                                '<td>ФИО</td> \
-                                <td>Специальность</td> \
-                                <td>Город</td> \
-                                <td>Программа</td> \
+                                <th>№</th> \
+                                <th>Балл</th> \
+                                <th>Комментарий</th> \
+                                <th>Ссылка</th>' +
+                                (hasFiles ? '<td>Файл</th>' : '') +
+                               '<th>ФИО</th> \
+                                <th>Специальность</th> \
+                                <th>Категория</th> \
+                                <th>Программа</th> \
                             </tr>';
                         
                             competitors.forEach(function(item, i){ 
                             competitorsInfo += 
                             '<tr>' +
                             '<td>' + (i+1) + '</div></td>' +
-                            '<td><input value="' + item.score + '"  type="number max="25" " class="edit" id="competitor-value-'+ item.id +'" data-competitor-id="'+ item.id +'" ><br><button class="ok" onclick="javascript: saveScore(' + item.id + ');" style="display:none">Ok</button><button class="cancel" onclick="javascript: cancel();" style="display:none">Отмена</button></td>' +
-                            '<td><div class="edit" contenteditable  id="competitor-comment-'+ item.id +'">' + item.comment + '</div><br><button class="ok" onclick="javascript: saveScore(' + item.id + ');" style="display:none">Ok</button><button class="cancel" onclick="javascript: cancel();" style="display:none">Отмена</button><br></td>' +
+                            '<td ><input style="max-width:50px" value="' + item.score + '"  type="number max="25" " class="edit" id="competitor-value-'+ item.id +'" data-competitor-id="'+ item.id +'" ><button class="ok" onclick="javascript: saveScore(' + item.id + ');" style="display:none">Ok</button><button class="cancel" onclick="javascript: cancel();" style="display:none">Отмена</button></td>' +
+                            '<td><div class="edit" contenteditable  id="competitor-comment-'+ item.id +'">' + item.comment + '</div><button class="ok" onclick="javascript: saveScore(' + item.id + ');" style="display:none">Ok</button><button class="cancel" onclick="javascript: cancel();" style="display:none">Отмена</button></td>' +
                             (item.sourceUrl ? 
                                 ('<td data-source-type="'+item.type+'"><a href="' +item.sourceUrl + '" target="_blank" rel="noopener noreferrer">Ссылка</a></td>')
                                 : '<td>- - -</td>')
@@ -51,9 +51,9 @@ jQuery(document).ready(function(){
                                     : '<td>- - -</td>')
                                 : '')
                                 + 
-                                '<td>' + item.name + '</td>' +
+                                '<td style="max-width:150px">' + item.name + '</td>' +
                                 '<td>' + item.specialty + '</td>' +
-                            '<td>' + item.city + '</td>' +
+                            '<td>' + item.ageCategory + '</td>' +
                             '<td>' + JSON.parse(item.compositions).map((x, index) => '<div>' + (index+1) + '. ' + x + ';</div>').join('') + '</td>' +
                             '</tr>';
                         });
@@ -172,11 +172,5 @@ jQuery(document).ready(function(){
 
 
     function cancel(id) {
-        jQuery('.cancel').click(function(){
-          
-            // jQuery('#competitor-value-'+ competitorId).val();
             jQuery('.edit').nextAll('button').hide(100); // КАК сделать отмн
-            // jQuery('#competitor-comment-2').nextAll('button').hide()
-            // console.log('Нажал Отмена');
-    });
     }

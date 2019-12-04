@@ -1,24 +1,24 @@
-<?php 
+CREATE TEMPORARY TABLE average 
+	SELECT competitor_id,
+       	   AVG(score) AS average 
+  	  FROM wp_gma_scores 
+   	 WHERE competition_id = 7
+	 GROUP 
+     	BY competitor_id;
 
-add_action('wp_ajax_getResultsJury', 'get_results_jury_func');
-function get_results_jury_func()
-{
-    $competition_id = $_POST['competitionId'];
-    $specialty_id = $_POST['specialtyId'];
+CREATE TEMPORARY TABLE scores
+SELECT S.competitor_id, AVG(S.score) as average 
+  FROM wp_gma_scores S
+  JOIN average A
+  	ON A.competitor_id = S.competitor_id
     
-    global $wpdb;
-    global	$current_user;
-    $current_user_id = $current_user->id;
+ WHERE S.competition_id = 7
+   AND ABS(A.average - S.score) < 3
+ GROUP  
+    BY S.competitor_id;
 
-
-
-    $current_jury_id = $wpdb->get_var( "SELECT id FROM `wp_gma_jury` WHERE user_id = $current_user_id" );
-
-	$sql = "
-     
-    SELECT C.id AS id,
-           IFNULL (S.score, '') AS score,
-           IFNULL(S.comments, '') AS comment,
+SELECT C.id AS id,
+           IFNULL(S.average, 0) as average, 
            MU.name AS name,
            CCU.source AS sourceUrl,
            CCF.source AS sourceFile,
@@ -58,28 +58,13 @@ LEFT JOIN wp_gma_competitor_content CCF
         ON CCF.competitor_id = C.id 
         AND CCF.type = 1
 
-LEFT JOIN wp_gma_scores S
-        ON S.competitor_id = C.id
-      AND S.jury_id = $current_jury_id
+ LEFT JOIN scores S
+	   ON S.competitor_id = C.id 
     
-     WHERE C.competition_id = $competition_id
+     WHERE C.competition_id = 7
        AND C.isConfirm = 1
-       AND IFNULL(S_MAIN.id, S_CURRENT.id) = $specialty_id
+       AND IFNULL(S_MAIN.id, S_CURRENT.id) = 6
         
+       GROUP by C.id
 
-       ORDER BY specialty, N.id, ageCategory       
-
-       ";
-    
-    $queryArray = $wpdb->get_results($sql, ARRAY_A);
-
-    
-    // if ( current_user_can ('jury') ) {
-    //   echo  json_encode("Вы член жюри"); 
-    // } else echo '0';
-    
-    
-    echo json_encode($queryArray);
-    exit;
-}
-
+       ORDER BY specialty, N.id, ageCategory

@@ -26,6 +26,15 @@ if ( is_user_logged_in() ) {
 
 	<?php
 			$getCurrentCompetitions = getCurrentCompetitions();
+
+			//Для дебага PHP на старнице
+			// function console_log( $data ){
+			// 	echo '<script>';
+			// 	echo 'console.log('. json_encode( $data ) .')';
+			// 	echo '</script>';
+			//   }
+
+
 		 foreach ($getCurrentCompetitions as $currentCompetition):?>
 		<?php 
 				$id = $currentCompetition['id'];
@@ -54,7 +63,10 @@ if ( is_user_logged_in() ) {
 		<select id="specialties" name="specialty" size="1" class="required">
 		<option value="0" disabled="" selected="">Выберите вашу специальность</option>
 
-		<?php $getCurrentSpecialties = getCurrentSpecialties();
+		<?php
+		
+		if($getCurrentCompetitions != null){$getCurrentSpecialties = getCurrentSpecialties();}
+		
 		 foreach ($getCurrentSpecialties as $currentSpecialty):
 			$id = $currentSpecialty['id']; 
 		 	$specialty = $currentSpecialty['name'];?>
@@ -69,7 +81,7 @@ if ( is_user_logged_in() ) {
 	<div id="subSpecialtiesContainer" style="display:none">
 	<b>Доп.категория специальности</b><br />
 
-<select name="subSpecialty" id="subSpecialties" size="1">
+<select name="subSpecialty" id="subSpecialties" size="1" class="required">
 <option value="0" disabled selected>Выберите вашу Доп.специальность</option>
 
 <?php $getCurrentSubSpecialties = getCurrentSubSpecialties();
@@ -100,7 +112,7 @@ if ( is_user_logged_in() ) {
 			$id = $currentNomination['id']; 
 		 	$nomination = $currentNomination['name'];?>
 	
-		<option value="<?php echo $nomination; ?>" style="display:none">
+		<option value="<?php echo $id; ?>" style="display:none">
 	<?php echo ($nomination); ?>
 		</option>
 	<?php endforeach; ?>	
@@ -204,17 +216,17 @@ if ( is_user_logged_in() ) {
 
 	<hr>
 
-	<label for="email"><b>Ваш e-mail</b></label><br />
+	<label for="user_id"><b>user_id</b></label><br />
 
-	<input type="text" name="ваш email" id="email" value="<?php echo wp_get_current_user()->user_email; ?>"><br />
+	<input type="text" name="user_id" id="user_id" value="<?php echo wp_get_current_user()->user_email; ?>"><br />
 	
 	<label for="telephone"><b>Телефон</b></label><br />
 	
-	<input type="tel" name="telephone" id="telephone"><br /><br />
+	<input type="tel" name="telephone" id="telephone" class="required"><br /><br />
 
 	<b>Как получить диплом?</b><br />
 
-	<select name="getDiploma" id="getDiploma" onchange="getDiplomaFunc(value)">
+	<select name="getDiploma" id="getDiploma" onchange="getDiplomaFunc(value)" class="required">
 			<option value="0" selected disabled>--- Как вы хотите получить диплом? ---</option>
 			<option value="byEmail">Электронный вариант</option>
 			<option value="inMoscow">Заберу в Москве</option>
@@ -242,14 +254,14 @@ if ( is_user_logged_in() ) {
 
 	Фамилия<br />
 
-	<input type="text" name="teaher_lastname" placeholder="Необязательно"><br />
+	<input type="text" id="teacher_lastname" name="teacher_lastname" placeholder="Необязательно"><br />
 
 	Имя<br />
 
-	<input type="text" name="teaher_name" placeholder="Необязательно"><br />
+	<input type="text" id="teacher_name" name="teacher_name" placeholder="Необязательно"><br />
 
 	Отчество<br />
-	<input type="text" name="teaher_surname" placeholder="Необязательно"><br />
+	<input type="text" id="teacher_surname" name="teacher_surname" placeholder="Необязательно"><br />
 </div>
 
 <span id="showConcertmasterForm" class="showSwitcher">Концертмейстер:</span><br />
@@ -257,29 +269,45 @@ if ( is_user_logged_in() ) {
 
 	Фамилия<br />
 
-	<input type="text" name="concertmaster_lastname" placeholder="Необязательно"><br />
+	<input type="text" id="concertmaster_lastname" name="concertmaster_lastname" placeholder="Необязательно"><br />
 
 	Имя<br />
 
-	<input type="text" name="concertmaster_name" placeholder="Необязательно"><br />
+	<input type="text" id="concertmaster_name" name="concertmaster_name" placeholder="Необязательно"><br />
 
 	Отчество<br />
 
-	<input type="text" name="concertmaster_surname" placeholder="Необязательно"><br />
+	<input type="text" id="concertmaster_surname" name="concertmaster_surname" placeholder="Необязательно"><br />
 </div>
 	<br />
 
-<div id="center"><br /><input type="submit" value="Отправить" name="">
+<div>
+
+<label for="school"><b>Учебное заведение</b></label><br />
+
+	<input type="text" name="school" id="school" placeholder="Необязательно"><br />
+</div>
+
+<div>
+	<label for="comment"><b>Комментарий</b></label><br />
+	<textarea name="comment" id="comment"  rows="10"></textarea>
+</div>
+
+<div id="center"><br /><input type="submit" id="submit" value="Отправить" name="">
 
 <div id="loader" style="width:100%; height:100%; position:relative; margin:auto; display:none; opacity:0.5">
 	<img src="<?php global $plugin_url; echo $plugin_url . "/includes/lk-competitor/img/ajax-loader.gif" ?>">
 </div>
 
 </div>
-<p id="insert"></p>
 </form>
-<!-- <div id="center"><br /><button id="sendData" value="Отправить" name="asdasd">asdasdasd</button></div> -->
 
+
+<div id="oneMoreCompetitorContainer" style="display:none">
+	<a href="javascript: oneMoreCompetitor();" id="oneMoreCompetitor"   target="_blank" rel="noopener noreferrer">Заполнить еще одну заявку?</a>
+	<br />
+	<a href="/lk-competitor"target="_blank" rel="noopener noreferrer">Перейти в личный кабинет</a>
+</div>
 </div>
 
 <?php

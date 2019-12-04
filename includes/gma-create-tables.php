@@ -14,12 +14,13 @@ function gma_install (){
 	$gma_musicians_of_user = $wpdb->prefix . "gma_musicians_of_user";
 	$gma_jury = $wpdb->prefix . "gma_jury";
 	$gma_jury_specialty = $wpdb->prefix . "gma_jury_specialty";
-	$gma_person = $wpdb->prefix . "gma_person";
+	// $gma_person = $wpdb->prefix . "gma_person";
 	$gma_scores = $wpdb->prefix . "gma_scores";
 	$gma_specialty = $wpdb->prefix . "gma_specialty";
 	$gma_nomination = $wpdb->prefix . "gma_nomination";
 	$gma_nomination_for_specialty = $wpdb->prefix . "gma_nomination_for_specialty";
 	$gma_specialty_for_competitor = $wpdb->prefix . "gma_specialty_for_competitor";
+	$gma_nomination_for_competitor = $wpdb->prefix . "gma_nomination_for_competitor";
 	$gma_competitor_content = $wpdb->prefix . "gma_competitor_content";
 	
 
@@ -89,13 +90,18 @@ function gma_install (){
 	       $sql[] = "CREATE TABLE " . $gma_competitor . " (
 			id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 			musician_id int(10) UNSIGNED NOT NULL,
-			compositions varchar(128) NOT NULL,
+			compositions varchar(1024) NOT NULL,
 			timeCompositions tinyint(10),
 			teacher varchar(128) NULL,
 			concertmaster varchar(128) NULL,
+			school varchar(128) NULL,
 			getDiploma varchar(128) NOT NULL,
-			telephone varchar(10) NOT NULL,
+			postIndex varchar(24) NULL,
+			address varchar(256) NULL,
+			telephone varchar(20) NOT NULL,
 			city varchar(256) NOT NULL,
+			country varchar(256) NOT NULL,
+			comment text NULL,
 			user_id bigint(20) UNSIGNED NOT NULL,
 			competition_id int(10) UNSIGNED NOT NULL,
 			age_category varchar(2) NOT NULL,
@@ -130,16 +136,27 @@ function gma_install (){
 		)";
 		}
 
-	   if($wpdb->get_var("SHOW TABLES LIKE '$gma_person") != $gma_person) {
+		if($wpdb->get_var("SHOW TABLES LIKE '$gma_nomination_for_competitor'") != $gma_nomination_for_competitor) {
 
-	       $sql[] = "CREATE TABLE " . $gma_person . " (
-			id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-			fio varchar(128) NOT NULL,
-			user_id bigint(20) UNSIGNED NOT NULL,
-			PRIMARY KEY id (id),
-	        FOREIGN KEY (user_id) REFERENCES ". $wp_users ."(ID)
-		)";
-		}
+			$sql[] = "CREATE TABLE " . $gma_nomination_for_competitor . " (
+			 competitor_id int(10) UNSIGNED NOT NULL,
+			 nomination_id int(10) UNSIGNED NULL,
+			 FOREIGN KEY (competitor_id) REFERENCES ". $gma_competitor ."(id),
+			 FOREIGN KEY (nomination_id) REFERENCES ". $gma_nomination ."(id)
+ 
+		 )";
+		 }
+
+	//    if($wpdb->get_var("SHOW TABLES LIKE '$gma_person") != $gma_person) {
+
+	//        $sql[] = "CREATE TABLE " . $gma_person . " (
+	// 		id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	// 		fio varchar(128) NOT NULL,
+	// 		user_id bigint(20) UNSIGNED NOT NULL,
+	// 		PRIMARY KEY id (id),
+	//         FOREIGN KEY (user_id) REFERENCES ". $wp_users ."(ID)
+	// 	)";
+	// 	}
 
 	   if($wpdb->get_var("SHOW TABLES LIKE '$gma_jury") != $gma_jury) {
 
@@ -249,7 +266,8 @@ function gma_install_data() {
 		'1' => 'Солисты',
 		'2' => 'Ансамбли',
 		'3' => 'Оркестры', 
-		'4' => 'Хоры' 
+		'4' => 'Хоры', 
+		'4' => 'Педагог-ученик' 
 	);
 	
 	foreach ($nominations as $key => $nomination) {
@@ -268,7 +286,7 @@ function gma_uninstall()
 		$wpdb->prefix . "gma_scores",
 		$wpdb->prefix . "gma_jury_specialty",
 		$wpdb->prefix . "gma_jury",
-		$wpdb->prefix . "gma_person",
+		// $wpdb->prefix . "gma_person",
 		$wpdb->prefix . "gma_specialty_for_competitor",
 		$wpdb->prefix . "gma_competitor_content",
 		$wpdb->prefix . "gma_competitor",

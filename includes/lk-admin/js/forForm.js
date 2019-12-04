@@ -14,7 +14,7 @@ jQuery(document).ready(function () {
 
 		counter++;
 
-	});
+	}); 
 
 // Суб.Специальности для ВОКАЛА и ЭЛ.Гитары
 	jQuery("#specialties").on("change", function() {
@@ -53,49 +53,49 @@ jQuery(document).ready(function () {
 					case 'Фортепиано':
 						jQuery("#nomination :contains('Хоры')").hide();
 						jQuery("#nomination :contains('Оркестры')").hide();
-						jQuery('#nominationContainer').show(300);
+						jQuery('#nomination').show(300);
 						jQuery('#concertmaster').show(300);
 						jQuery('#filesContainer').hide(300);
 						break;
 					case 'Народные инструменты':
 						jQuery("#nomination :contains('Хоры')").hide();
 						jQuery("#nomination :contains('Оркестры')").show();
-						jQuery('#nominationContainer').show(300);
+						jQuery('#nomination').show(300);
 						jQuery('#concertmaster').show(300);
 						jQuery('#filesContainer').hide(300);
 						break;
 					case 'Струнно-смычковые инструменты':
 						jQuery("#nomination :contains('Хоры')").hide();
 						jQuery("#nomination :contains('Оркестры')").show();
-						jQuery('#nominationContainer').show(300);
+						jQuery('#nomination').show(300);
 						jQuery('#concertmaster').show(300);
 						jQuery('#filesContainer').hide(300);
 						break;
 						case 'Духовые и ударные инструменты':
 							jQuery("#nomination :contains('Хоры')").hide();
 							jQuery("#nomination :contains('Оркестры')").show();
-							jQuery('#nominationContainer').show(300);
+							jQuery('#nomination').show(300);
 							jQuery('#filesContainer').hide(300);
 							jQuery('#concertmaster').show(300);
 						break;
 					case 'Вокал':
 						jQuery("#nomination :contains('Хоры')").show();
 						jQuery("#nomination :contains('Оркестры')").hide();
-						jQuery('#nominationContainer').show(300);
+						jQuery('#nomination').show(300);
 						jQuery('#concertmaster').show(300);
 						jQuery('#filesContainer').hide(300);
 						break;
 					case 'Классическая гитара':
 						jQuery("#nomination :contains('Хоры')").hide();
 						jQuery("#nomination :contains('Оркестры')").show();
-						jQuery('#nominationContainer').show(300);
+						jQuery('#nomination').show(300);
 						jQuery('#concertmaster').show(300);
 						jQuery('#filesContainer').hide(300);
 						break;
 					case 'Электрогитара':
 						jQuery("#nomination :contains('Хоры')").hide();
 						jQuery("#nomination :contains('Оркестры')").show();
-						jQuery('#nominationContainer').show(300);
+						jQuery('#nomination').show(300);
 						jQuery('#concertmaster').show(300);
 						jQuery('#filesContainer').hide(300);
 						break;
@@ -103,17 +103,15 @@ jQuery(document).ready(function () {
 						jQuery('#specialtyFile').val(null);
 						jQuery('#filesContainer').show(300);
 						jQuery('#filesContainer > label').html('<b>Файл для композитора</b>');
-						jQuery('#nominationContainer').hide(300);
+						jQuery('#nomination').hide(300);
 						jQuery('#concertmaster').hide(300);
-						jQuery('#nomination').val(null); 
 						break;
 					case 'Музыковедение':
 						jQuery('#specialtyFile').val(null)
 						jQuery('#filesContainer').show(300);
 						jQuery('#filesContainer > label').html('<b>Файл для музыковедов</b>');
-						jQuery('#nominationContainer').hide(300);
+						jQuery('#nomination').hide(300);
 						jQuery('#concertmaster').hide(300);
-						jQuery('#nomination').val(null); 
 						break;
 						
 						default:

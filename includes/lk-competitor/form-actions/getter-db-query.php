@@ -9,12 +9,31 @@ function musicians_of_user()
 }
 
 function getCurrentCompetitions()
-{
-				$nowDate = date('y-m-d');
+{				
+				$nowDate = date('Y-m-d');
 				global $wpdb;
-				$sql = "SELECT * FROM wp_gma_competition WHERE beforeStart < '$nowDate' AND beforeStart > 0 AND enabled = 1";
+				
+				$sql = "SELECT * FROM wp_gma_competition 
+								 WHERE '$nowDate' > beforeStart 
+									AND beforeStart > 0 
+									AND '$nowDate' < fromDate  
+									AND enabled = 1"; 
+									
 				$queryArray = $wpdb->get_results($sql, ARRAY_A); 
 				return $queryArray;
+				
+}
+function getCurrentCompetitionsForResultsPage()
+{				
+				$nowDate = date('Y-m-d');
+				global $wpdb;
+				
+				$sql = "SELECT * FROM wp_gma_competition 
+								 WHERE enabled = 1"; 
+									
+				$queryArray = $wpdb->get_results($sql, ARRAY_A); 
+				return $queryArray;
+				
 }
 
 function getCurrentSpecialties()
@@ -41,5 +60,3 @@ function getCurrentNominations()
 	$queryArray = $wpdb->get_results($sql, ARRAY_A);
 	return $queryArray;
 }
-
-

@@ -7,17 +7,17 @@ add_action( 'wp_enqueue_scripts', 'gma_plugin_styles' );
 
 gma_plugin_styles();
 wp_enqueue_style('gma-style-bootstrap');
-add_shortcode( 'gma_lk_jury', 'gma_lk_jury_func' );
+add_shortcode( 'gma_lk_admin', 'gma_lk_admin_func' );
 
- function gma_lk_jury_func(){
-
+ function gma_lk_admin_func(){
+ 
 	if ( is_user_logged_in() ) {
 			global	$current_user;
 			get_currentuserinfo();
 			echo "Здравствуйте, <b>" . $current_user->display_name . "!</b>"; 
 			echo "<br />";
 		}else exit ("Вам нужно войти на сайт <br />" . "<form action='/wp-admin'><button type='submit'>Войти</button></form>");
-	if (!current_user_can ( 'administrator' ) && !current_user_can ('jury')) {
+	if (!current_user_can ( 'administrator' )  ) {
 		wp_die("У ВАС НЕТ ПРАВ ДОСТУПА");
 	} else
 
@@ -39,7 +39,6 @@ add_shortcode( 'gma_lk_jury', 'gma_lk_jury_func' );
     </section>  
     <section id="content-tab2">
         <p>
-        <?php include('help.php') ?>
         </p>
     </section> 
         
