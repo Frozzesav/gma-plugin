@@ -1,5 +1,8 @@
 <?php 
 // require_once ('form-actions/getter-db-query.php');
+require_once 'form.php';
+require_once 'form-actions/new-competitor.php';
+require_once 'form-actions/get-results.php';
 
 add_action( 'wp_enqueue_scripts', 'newMusician' );
 add_action( 'wp_enqueue_scripts', 'gma_plugin_styles' );

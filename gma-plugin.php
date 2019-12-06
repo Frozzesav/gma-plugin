@@ -36,11 +36,19 @@ function gma_plugin_js() {
 	wp_enqueue_script('gma-script');
 	}
 
+require_once plugin_dir_path(__FILE__) . 'shortcodes.php';
+
 require_once plugin_dir_path(__FILE__) . 'includes/gma-functions.php';
-require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/lk-competitor.php';
-require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form.php';
-require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form-actions/new-competitor.php';
-require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form-actions/get-results.php';
+
+
+require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/lk-competitor.php'; 
+
+
+//Подключитл файлы ниже в lk-ompetitor.php
+// require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form.php';
+// require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form-actions/new-competitor.php';
+// require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form-actions/get-results.php';
+
 require_once plugin_dir_path(__FILE__) . 'includes/lk-jury/form-actions/get-results.php';
 require_once plugin_dir_path(__FILE__) . 'includes/lk-jury/form-actions/set-data-jury.php';
 require_once plugin_dir_path(__FILE__) . 'includes/lk-jury/lk-jury.php';

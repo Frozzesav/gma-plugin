@@ -17,8 +17,10 @@ function testAjax()
 	global	$current_user; // пото нужно ID залогиненого юзера.
 
 	// ПОка веременно по email нахожу Id.
-	$user = get_user_by( 'email', $_POST['user_id'] );
-	$userId = $user->ID;
+	// $user = get_user_by( 'email', $_POST['user_id'] );
+	// $userId = $user->ID;
+
+	$userId = get_current_user_id();
 
 
 	// $_POST = array_map('stripslashes_deep', $_POST);

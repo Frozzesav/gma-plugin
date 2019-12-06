@@ -14,9 +14,10 @@ function getCurrentCompetitions()
 				global $wpdb;
 				
 				$sql = "SELECT * FROM wp_gma_competition 
-								 WHERE '$nowDate' > beforeStart 
-									AND beforeStart > 0 
-									AND '$nowDate' < fromDate  
+								 WHERE
+								 '$nowDate' >= beforeStart 
+									-- AND beforeStart > 0 
+									-- AND '$nowDate' < fromDate  
 									AND enabled = 1"; 
 									
 				$queryArray = $wpdb->get_results($sql, ARRAY_A); 
@@ -29,7 +30,7 @@ function getCurrentCompetitionsForResultsPage()
 				global $wpdb;
 				
 				$sql = "SELECT * FROM wp_gma_competition 
-								 WHERE enabled = 1"; 
+								 WHERE enabled = 1";  
 									
 				$queryArray = $wpdb->get_results($sql, ARRAY_A); 
 				return $queryArray;

@@ -1,7 +1,6 @@
 <?php
 add_action( 'wp_enqueue_scripts', 'newMusician' );
 add_action('wp_enqueue_scripts', 'test_ajax', 99);
-
 add_shortcode( 'gma_application_form', 'gma_application_form_func' );
 
 function gma_application_form_func(){
@@ -27,8 +26,8 @@ if ( is_user_logged_in() ) {
 	<?php
 			$getCurrentCompetitions = getCurrentCompetitions();
 
-			//Для дебага PHP на старнице
-			// function console_log( $data ){
+			// Для дебага PHP на старнице
+			// function console_log( $getCurrentCompetitions ){
 			// 	echo '<script>';
 			// 	echo 'console.log('. json_encode( $data ) .')';
 			// 	echo '</script>';
@@ -216,9 +215,9 @@ if ( is_user_logged_in() ) {
 
 	<hr>
 
-	<label for="user_id"><b>user_id</b></label><br />
+	<!-- <label for="user_id"><b>user_id</b></label><br />
 
-	<input type="text" name="user_id" id="user_id" value="<?php echo wp_get_current_user()->user_email; ?>"><br />
+	<input type="text" name="user_id" id="user_id" value="<?php echo wp_get_current_user()->user_email; ?>"><br /> -->
 	
 	<label for="telephone"><b>Телефон</b></label><br />
 	
