@@ -138,7 +138,13 @@ jQuery('#newCompetitorForm').validate({
             processData: false,      
             success: function(data) {
                 jQuery('#loader').hide();
+
+                
                 console.log(data);
+                
+
+                // ga ('send', 'event', 'submit', 'newCompetitorForGoogle');
+                ym(34839100, 'reachGoal', 'newCompetitorForMetrika');
                 alert('Заявка заполнена! \n Подтверждение придет на ваш E-mail в течение 24 часов (Проверьте папку \'Спам\')');
                 // jQuery('#newCompetitorForm').hide();
                 // jQuery('#newCompetitorForm')[0].reset();

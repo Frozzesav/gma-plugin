@@ -18,10 +18,10 @@ add_shortcode( 'gma_lk_competitor', 'gma_lk_competitor_func' );
 			get_currentuserinfo();
             echo "Здравствуйте, <b>" . $current_user->display_name . "!</b>";
 			echo "<br />";
-		}else exit ("<div style='display:block; width:400px; margin: auto; text-align:center'><h1>Вам нужно войти на сайт</h1> <br />" . "<form action='/wp-admin'><button style='text-align:center' class='enterGmaLk' type='submit'>Войти</button></form></div>");
-	// if (!current_user_can ( 'jury' ) && !current_user_can ('competitor')) {
-	// 	wp_die("У ВАС НЕТ ПРАВ ДОСТУПА");
-	// } else
+		}else exit ("<div style='display:block; width:400px; margin: auto; text-align:center'><h1>Вам нужно войти на сайт или у вас нет доступа.</h1> <br />" . "<form action='/wp-admin'><button style='text-align:center' class='enterGmaLk' type='submit'>Войти</button></form></div>");
+	if (!current_user_can ('competitor') && !current_user_can ( 'administrator' )) {
+		wp_die("У ВАС НЕТ ПРАВ ДОСТУПА");
+	} else
 
 ?>
         
@@ -35,7 +35,6 @@ add_shortcode( 'gma_lk_competitor', 'gma_lk_competitor_func' );
 <input id="tab2" type="radio" name="tabs">
 <label for="tab2" title="Заполнить заявку">Заполнить заявку</label>
    
- 
     <section id="content-tab1">
         <p>
         <?php include('results.php') ?>

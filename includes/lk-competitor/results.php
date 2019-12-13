@@ -69,7 +69,6 @@
 
 
 <div style="width:100px; margin: auto;">
-
 <button class="showCompetitors">Показать</button>
 </div>
 <div id="loader" style="width:200px; height:20px; margin:auto; display:none; opacity:0.5">
