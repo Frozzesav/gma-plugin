@@ -3,7 +3,7 @@ $userdata;
 
 function showCompetitorForm(){
 	
-	echo '<div id="gmaApllicationFormContainer">';
+	echo 'asd<div id="gmaApllicationFormContainer">';
 	echo '<form id="newCompetitorForm" enctype="multipart/form-data" method="post">';
 	plugins_url('gma-plugin/includes/lk-competitor/form-actions/new-competitor.php');
 	echo '<b>Выберите конкурс</b><br />';
@@ -353,7 +353,6 @@ function createNewUser($user_email, $user_pass)
 
 function SendToEmailDataNewUser()
 {
-
 	global $userdata;
 	print_r($userdata['user_pass']);
 	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
@@ -373,7 +372,7 @@ function SendToEmailDataNewUser()
 
 add_action( 'wp_enqueue_scripts', 'newMusician' );
 add_action('wp_enqueue_scripts', 'test_ajax', 99);
-add_shortcode( 'gma_application_form', 'gma_application_form_func' );
+add_shortcode('gma_application_form', 'gma_application_form_func');
 
 function gma_application_form_func(){
 
@@ -384,30 +383,45 @@ function gma_application_form_func(){
 		echo "<br />";
 	} else 
 	{
-		 wp_die();
+		// return;
 
 		echo(
-			"<div id='et-main-area'>
-			<div id='main-content'>
-			<div class='container'>
-			<div id='content-area' class='clearfix'>
-			<div id='left-area'>
-			<div class='tml tml-login'>Уже зарегистрированы на сайте? <br><b>Войдите на сайт, чтобы заполнить заявку</b> <br />");
+			"<div id='formForUser'><center><div class='tml tml-login'>Уже зарегистрированы на сайте? <br><b>Войдите на сайт, чтобы заполнить заявку</b> <br />");
+
+		wp_login_form(); ?>
+		<br />
+
+		<div>
+			<button id="GetRegFromForUnregisteredButton">
+				У меня нет аккаунта на сайте. Хочу заполнить заявку.
+			</button>
+		</div>
+		
+		</div></center></div>
+	
+
+		<!-- <div>или перейдите по ссылке, если ещё не зарегистрированы</div>
+
+		<form id="registerform" action="<?php site_url('wp-login.php?action=register'); ?>" method="post">
+
+<p>
+	<label for="user_email">
+		E-mail<br>
+		<input type="email" name="user_email" id="user_email" class="input" value="" size="25">
+	</label>
+</p>
+
+<p id="reg_passmail">Подтверждение регистрации будет отправлено на ваш e-mail.</p>
+
+<br class="clear">
+<input type="hidden" name="redirect_to" value="">
+
+<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="Регистрация"></p>
+</form> -->
 
 		
-	
-			// createNewUser("guitarall@yandex.ru", "asdasd123");
-			// SendToEmailDataNewUser();
-
-
-		//  wp_login_form();
-		
-		echo("</div></div></div></div></div>");
-	
-
-		echo("<div>или перейдите по ссылке, если нет регистрации</div>");
-	
-		showCompetitorForm();
+	<?php
+		// showCompetitorForm();
 	// exit (
 		
 	// 	"
@@ -423,7 +437,7 @@ function gma_application_form_func(){
 ?>
 
 
-<div id="gmaApllicationFormContainer">
+<div id="gmaApllicationFormContainer" style="display:none">
 
 <form id="newCompetitorForm" enctype="multipart/form-data" method="post">
 <!-- <form enctype="multipart/form-data" action="<?php echo plugins_url('gma-plugin/includes/lk-competitor/form-actions/new-competitor.php') ?>" method="post"> -->
@@ -623,10 +637,14 @@ function gma_application_form_func(){
 
 	<hr>
 
-	<!-- <label for="user_id"><b>user_id</b></label><br />
 
-	<input type="text" name="user_id" id="user_id" value="<?php echo wp_get_current_user()->user_email; ?>"><br /> -->
-	
+			<?php
+				if ( !is_user_logged_in() ) {
+					
+					?>
+	<label for="user_id"><b>user_id</b></label><br />
+	<input type="text" name="user_id" id="user_id" value="<?php echo wp_get_current_user()->user_email; ?>"><br />
+			<?php } ?>
 	<label for="telephone"><b>Телефон</b></label><br />
 	
 	<input type="tel" name="telephone" id="telephone" class="required"><br /><br />

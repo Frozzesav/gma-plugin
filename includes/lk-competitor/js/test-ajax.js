@@ -1,4 +1,10 @@
 jQuery(document).ready(function() {
+
+jQuery('#GetRegFromForUnregisteredButton').on('click', function () {
+    jQuery("#gmaApllicationFormContainer").show();
+    jQuery('#formForUser').hide(400);
+})
+
 jQuery('#newCompetitorForm').validate({
     ignore:":not(:visible)",
     messages: {
@@ -163,6 +169,9 @@ jQuery('#newCompetitorForm').validate({
 });
 
 });
+
+
+
 
 
 function oneMoreCompetitor() {

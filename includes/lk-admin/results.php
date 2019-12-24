@@ -66,6 +66,7 @@
 
 <div style="width:100px; margin: auto;">
 <button class="showCompetitors">Показать</button>
+<button id="tableForSocialPost" onclick='tableForSocialPost()'>Победители для постов VK</button>
 </div>
 
 

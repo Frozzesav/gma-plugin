@@ -44,7 +44,7 @@ require_once plugin_dir_path(__FILE__) . 'includes/gma-functions.php';
 require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/lk-competitor.php'; 
 
 
-//Подключитл файлы ниже в lk-ompetitor.php
+//Подключитл файлы ниже в lk-competitor.php
 // require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form.php';
 // require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form-actions/new-competitor.php';
 // require_once plugin_dir_path(__FILE__) . 'includes/lk-competitor/form-actions/get-results.php';
@@ -74,7 +74,7 @@ register_activation_hook( __FILE__, 'gma_install_data' );
 
 function test_ajax() {
 	wp_enqueue_script('jquery.validate.min', plugins_url('/includes/lk-competitor/js/jquery.validate.min.js', __FILE__), array('jquery'));
-	wp_enqueue_script('test-ajax', plugins_url('/includes/lk-competitor/js/test-ajax.js', __FILE__), array('jquery', 'jquery.validate.min'));
+	wp_enqueue_script('test-ajax', plugins_url('/includes/lk-competitor/js/test-ajax.js', __FILE__), array('jquery', 'jquery.validate.min'), 19.12);
 	wp_localize_script('test-ajax', 'gmaPlugin', array(
 		'ajaxurl' => admin_url('admin-ajax.php'),
 	));

@@ -167,6 +167,128 @@
 
 
 
+
+/*
+Функция копирования для постов в VK.
+*/
+
+function vkCopy(elem) {
+    jQuery(elem).select();
+    document.execCommand("copy");
+}
+
+
+
+function tableForSocialPost() {
+    var competitionId = jQuery('#competitionResults').val();
+    var specialtiesResults = jQuery('#specialtiesResults').val();
+    
+    if (competitionId != null) {
+
+        console.log(competitionId);
+        console.log(specialtiesResults);
+        jQuery('#loader').show();
+            
+        jQuery.ajax({
+                url: gmaPlugin.ajaxurl, 
+                type: "POST",             
+                data: {
+                    action: 'getResultsAdminForSocialPost',
+                    competitionId: competitionId,
+                    specialtyId: specialtiesResults
+                },
+                cache: false,             
+                processData: true,      
+                success: function(data) {
+                    jQuery('#loader').hide();
+                    console.log(data);
+                    var competitors = JSON.parse(data);
+                    console.log(competitors);
+                    let hasFiles = competitors.some(x => x.sourceFile);
+                    var competitorsInfo = 
+                    '<table> \
+                        <tr> \
+                            <th>№</th> \
+                            <th>Выбор Результата</th> \
+                            <th>Текущий Результата</th> \
+                            <th>Ср.балл</th> \
+                            <th>Ссылка</th>' +
+                            (hasFiles ? '<th>Файл</th>' : '') +
+                            '<th style="max-width:50px">ФИО</th> \
+                            <th>Специальность</td> \
+                            <th>Категория</th> \
+                            <th>Город</th> \
+                            <th>Email</th> \
+                            <th>ПОСТЫ VK</th> \
+                        </tr>';
+                    
+                        competitors.forEach(function(item, i){
+                        competitorsInfo += 
+                        '<tr>' +
+                        '<td>' + (i+1) + '. ' + '</td>' +
+                        '<td><select id ="'+ item.id +'" onchange="javascript: setResult(' + item.id + ');"> \
+                        <option  disabled selected value="0">Изменить результат</option> \
+                        <option  value="1">Гран-при</option> \
+                        <option  value="2">Лауреат I Степени</option> \
+                        <option  value="3">Лауреат II Степени</option> \
+                        <option  value="4">Лауреат III Степени</option> \
+                        <option  value="5">Диплом</option> \
+                        <option  value="6">Диплом участника</option> \
+                        </select></td>' +
+                        '<td>' + item.result + '</td>' +
+                        '<td>' + item.average + '</td>' +
+                        (item.sourceUrl ? 
+                            ('<td data-source-type="'+item.type+'"><a href="' +item.sourceUrl + '" target="_blank" rel="noopener noreferrer">Ссылка</a></td>')
+                            : '<td>- - -</td>')
+                        + 
+                        (hasFiles ? 
+                            (item.sourceFile ?
+                                ('<td data-source-type="'+item.type +'"><a href="' +item.sourceFile + '" target="_blank" rel="noopener noreferrer">Файл</a></td>')
+                                : '<td>- - -</td>')
+                            : '')
+                        + 
+                        '<td style="max-width:150px">' + item.name + '</td>' +
+                        '<td>' + item.specialty + '</td>' +
+                        '<td>' + item.ageCategory + '</td>' +
+                        '<td>' + item.city + '</td>' +
+                        '<td>' + item.email + '</td>' +
+                        '<td><textarea onclick="vkCopy(this)">' 
+                            + item.result + "@club115932488 (VII GRAND MUSIC ART)\n\n" + 
+                              item.city + "\n" + 
+                             "Возрастная категория " + item.ageCategory + "\n\n" +
+
+                         JSON.parse(item.compositions).map((x, index) => (index+1) + '. ' + x + ';\n').join('') + 
+                         
+                         
+                         (item.school ? "\n" +  item.school + "\n" : "")
+                         
+                          + 
+                          (item.teacher ? item.teacher + "\n"  : "") + 
+                         
+                         '</textarea></td>' +
+                         
+                         '</tr>';
+                    });
+                    competitorsInfo += '</table>';
+
+                    if (data != '[]') {
+                        
+                        jQuery('#results').hide().html(competitorsInfo).fadeIn(1500);
+                    } else {
+                        jQuery('#results').hide().html("Нет участников").fadeIn(1500);
+                    }
+
+                    // getResultList();
+
+                },
+                error: function(data) {
+                    jQuery('#loader').hide();
+                    alert('Что то пошлое не так. Напишите на наш email: music-competiiton@yandex.ru')
+                }
+            });
+    }
+}
+
 jQuery(document).ready(function(){
     jQuery('.showCompetitors').on('click', function(){
         var competitionId = jQuery('#competitionResults').val();
@@ -264,8 +386,7 @@ jQuery(document).ready(function(){
                 alert("Выберите конкурс");
             }    
         });
-
-
+    
     function getResultList() {
         jQuery.ajax({
             url: gmaPlugin.ajaxurl, 
