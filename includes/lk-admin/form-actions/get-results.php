@@ -128,6 +128,8 @@ function get_results_admin_for_social_post()
             ELSE CONCAT(S_CURRENT.name,  ' (', N.name, ')') END AS specialty,
            C.compositions AS compositions,
            C.city AS city,
+           C.school AS school,
+           C.teacher AS teacher,
            C.telephone AS tel,
            C.age_category AS ageCategory
     

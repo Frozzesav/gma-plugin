@@ -1,173 +1,3 @@
-// jQuery(document).ready(function(){
-//     jQuery('.showCompetitors').on('click', function(){
-//         var competitionId = jQuery('#competitionResults').val();
-//         var specialtiesResults = jQuery('#specialtiesResults').val();
-//         jQuery('#loader').show();
-    
-//         if (competitionId != null) {
-            
-//             jQuery.ajax({
-//                     url: gmaPlugin.ajaxurl, 
-//                     type: "POST",             
-//                     data: {
-//                         action: 'getResultsAdmin',
-//                         competitionId: competitionId,
-//                         specialtyId: specialtiesResults
-//                     },
-//                     cache: false,             
-//                     processData: true,      
-//                     success: function(data) {
-//                         // console.log(data);
-//                         jQuery('#loader').hide();
-//                         var competitors = JSON.parse(data);
-//                         console.log(competitors);
-
-
-
-// /* The function */
-
-// function json2table(json, classes) {
-//     var cols = Object.keys(json[0]);
-    
-//     var headerRow = '';
-//     var bodyRows = '';
-    
-//     classes = classes || '';
-  
-//     function capitalizeFirstLetter(string) {
-//       return string.charAt(0).toUpperCase() + string.slice(1);
-//     }
-  
-//     cols.map(function(col) {
-//       headerRow += '<th>' + capitalizeFirstLetter(col) + '</th>';
-//     });
-  
-//     json.map(function(row) {
-//       bodyRows += '<tr>';
-  
-//       cols.map(function(colName) {
-//         bodyRows += '<td contenteditable="true">' + row[colName] + '</td>';
-//       })
-  
-//       bodyRows += '</tr>';
-//     });
-  
-//     return '<table class="' +
-//            classes +
-//            '"><thead><tr>' +
-//            headerRow +
-//            '</tr></thead><tbody>' +
-//            bodyRows +
-//            '</tbody></table>';
-//   }
-  
-//   /* How to use it */
-  
-//   var defaultData = competitors;
-
-//   document.getElementById('tableGoesHere').innerHTML = json2table(defaultData, 'table');
-  
-//   /* Live example */
-  
-//   var dom = {
-//     table: document.getElementById('tableGoesHere'),
-//   };
-
-                        
-//                         if (data = '[]') {
-//                             jQuery('#results').hide().html("Нет участников").fadeIn(1500);
-                            
-//                         }
-                        
-                        
-                        
-//                         var oldVal;
-//                         var editId; // они тут используютя?????
-                        
-//                         jQuery('.edit').focus(function(){
-//                             // jQuery('.edit').nextAll('button').hide(120);
-//                             jQuery(this).nextAll('button').show(100);
-//                             oldVal = jQuery(this).val();
-//                             editId = jQuery(this).attr('data-competitor-id');
-//                         });
-
-//                         // jQuery('.edit').blur(function(){
-//                         //     jQuery('.edit').nextAll('button').hide(120);
-//                         //     // jQuery(this).nextAll('button').show(100);
-//                         // });
-
-
-//                         var newVal;
-
-                       
-//                     },
-//                     error: function(data) {
-//                         jQuery('#loader').hide();
-//                         alert('Что то пошлое не так. Напишите на наш email: music-competiiton@yandex.ru')
-//                         console.log(data);
-//                     }
-//                 });
-//             } else {
-//                 jQuery('#loader').hide();
-//                 alert("Выберите конкурс");
-//             }    
-//         });
-
-        
-//     });
-    
-//     function ajaxSetScore(id, val, comment, competitionId) {
-        
-//         jQuery.ajax({
-//             url: gmaPlugin.ajaxurl, 
-//             type: "POST",             
-//             data: {
-//                 action: 'setDataJury',
-//                 competitionId: competitionId,
-//                 competitorId: id,
-//                 score: val,
-//                 comment: comment
-//             },
-//             cache: false,             
-//             processData: true,      
-//             success: function(data) {
-//                 jQuery('#loader').hide();
-//                 alert ("Данные сохранены");
-//                 console.log(data);
-//             },
-//             error: function(data) {
-//                 jQuery('#loader').hide();
-//                 alert('Что то пошлое не так. Напишите на наш email: music-competiiton@yandex.ru')
-//                 console.log(data);
-//             }
-//         });   
-//     }
-
-    
-//     function saveScore(competitorId) {
-//         var competitionId = jQuery('#competitionResults').val();
-//         var newVal = jQuery('#competitor-value-'+ competitorId).val();
-
-//         var newComment = jQuery('#competitor-comment-'+ competitorId).html();
-
-//         newVal = parseFloat(newVal.replace(',','.').replace(' ','')).toFixed(2);
-
-        
-//         ajaxSetScore(competitorId, newVal, newComment, competitionId);
-//         jQuery('.edit').nextAll('button').hide(100); 
-//     }
-
-
-
-
-//     function cancel(id) {
-//             jQuery('.edit').nextAll('button').hide(100); // КАК сделать отмн
-//     }
-
-
-
-
-
 /*
 Функция копирования для постов в VK.
 */
@@ -177,6 +7,15 @@ function vkCopy(elem) {
     document.execCommand("copy");
 }
 
+var categories = {
+    'A': "Группа A – участники возрастом до 9 лет включительно",
+    'B': "Группа B – участники возрастом с 10 до 12 лет включительно",
+    'C': "Группа C – участники возрастом с 13 до 15 лет включительно",
+    'D': "Группа D – участники возрастом с 16 до 18 лет включительно",
+    'E': "Группа E – учащиеся музыкальных училищ и колледжей",
+    'F': "Группа F - учащиеся и выпускники ВУЗов",
+    'G': "Группа G – без возрастных ограничений"
+    }
 
 
 function tableForSocialPost() {
@@ -185,8 +24,8 @@ function tableForSocialPost() {
     
     if (competitionId != null) {
 
-        console.log(competitionId);
-        console.log(specialtiesResults);
+        // console.log(competitionId);
+        // console.log(specialtiesResults);
         jQuery('#loader').show();
             
         jQuery.ajax({
@@ -201,70 +40,48 @@ function tableForSocialPost() {
                 processData: true,      
                 success: function(data) {
                     jQuery('#loader').hide();
-                    console.log(data);
+                    // console.log(data);
                     var competitors = JSON.parse(data);
-                    console.log(competitors);
+                    // console.log(competitors);
                     let hasFiles = competitors.some(x => x.sourceFile);
                     var competitorsInfo = 
                     '<table> \
                         <tr> \
                             <th>№</th> \
-                            <th>Выбор Результата</th> \
-                            <th>Текущий Результата</th> \
-                            <th>Ср.балл</th> \
-                            <th>Ссылка</th>' +
-                            (hasFiles ? '<th>Файл</th>' : '') +
-                            '<th style="max-width:50px">ФИО</th> \
-                            <th>Специальность</td> \
-                            <th>Категория</th> \
-                            <th>Город</th> \
-                            <th>Email</th> \
+                            <th style="max-width:50px">ФИО</th> \
+                            <th>link</th> \
                             <th>ПОСТЫ VK</th> \
                         </tr>';
                     
                         competitors.forEach(function(item, i){
                         competitorsInfo += 
                         '<tr>' +
-                        '<td>' + (i+1) + '. ' + '</td>' +
-                        '<td><select id ="'+ item.id +'" onchange="javascript: setResult(' + item.id + ');"> \
-                        <option  disabled selected value="0">Изменить результат</option> \
-                        <option  value="1">Гран-при</option> \
-                        <option  value="2">Лауреат I Степени</option> \
-                        <option  value="3">Лауреат II Степени</option> \
-                        <option  value="4">Лауреат III Степени</option> \
-                        <option  value="5">Диплом</option> \
-                        <option  value="6">Диплом участника</option> \
-                        </select></td>' +
-                        '<td>' + item.result + '</td>' +
-                        '<td>' + item.average + '</td>' +
+                        '<td>' + (i+1) + '. ' + '</td>' +                    
+                        '<td style="max-width:150px">' + item.name + '</td>' +
                         (item.sourceUrl ? 
                             ('<td data-source-type="'+item.type+'"><a href="' +item.sourceUrl + '" target="_blank" rel="noopener noreferrer">Ссылка</a></td>')
-                            : '<td>- - -</td>')
-                        + 
-                        (hasFiles ? 
-                            (item.sourceFile ?
-                                ('<td data-source-type="'+item.type +'"><a href="' +item.sourceFile + '" target="_blank" rel="noopener noreferrer">Файл</a></td>')
-                                : '<td>- - -</td>')
-                            : '')
-                        + 
-                        '<td style="max-width:150px">' + item.name + '</td>' +
-                        '<td>' + item.specialty + '</td>' +
-                        '<td>' + item.ageCategory + '</td>' +
-                        '<td>' + item.city + '</td>' +
-                        '<td>' + item.email + '</td>' +
+                            : '<td>- - -</td>') +
                         '<td><textarea onclick="vkCopy(this)">' 
-                            + item.result + "@club115932488 (VII GRAND MUSIC ART)\n\n" + 
-                              item.city + "\n" + 
-                             "Возрастная категория " + item.ageCategory + "\n\n" +
+                            + item.result + " @club115932488 (VII GRAND MUSIC ART)\n" +
+                            item.name  +
 
-                         JSON.parse(item.compositions).map((x, index) => (index+1) + '. ' + x + ';\n').join('') + 
+                            "\n\nУчаствуйте в нашем конкурсе:\
+                            \n↪ https://vk.com/app5898182_-115932488#u=814417&s=118887&force=1\
+                            \n📅 Заявки принимаются до 1 марта 2020 года" + "\n\n" + 
+
+                              item.city + "\n" +  
+                             categories[item.ageCategory] + "\n" +
+                             item.specialty + "\n" +
+
+                         JSON.parse(item.compositions).map((x, index) => "\n" + (index+1) + '. ' + x + ';').join('') + 
                          
                          
-                         (item.school ? "\n" +  item.school + "\n" : "")
+                         (item.school ? "\n\n" +  item.school : "")
                          
                           + 
-                          (item.teacher ? item.teacher + "\n"  : "") + 
+                          (item.teacher ? "\nПреподаватель: " + item.teacher : "") + 
                          
+
                          '</textarea></td>' +
                          
                          '</tr>';

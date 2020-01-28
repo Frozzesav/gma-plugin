@@ -1,10 +1,5 @@
 jQuery(document).ready(function() {
 
-jQuery('#GetRegFromForUnregisteredButton').on('click', function () {
-    jQuery("#gmaApllicationFormContainer").show();
-    jQuery('#formForUser').hide(400);
-})
-
 jQuery('#newCompetitorForm').validate({
     ignore:":not(:visible)",
     messages: {
@@ -109,7 +104,7 @@ jQuery('#newCompetitorForm').validate({
         formData.append("teacher", teacher);
         formData.append("concertmaster", concertmaster);
         formData.append("timeCompositions", timeCompositions);
-        formData.append("user_id", user_id);
+        formData.append("user_email", user_email);
         formData.append("musiciaId", musiciaId);
         formData.append("birthday", birthday);
         formData.append("ageCategory", ageCategory);

@@ -1,7 +1,14 @@
 <?php
+
+// Если email нет среди юеров, то нужно создать нового юзера и получить user_id.  Сейчас не отправляется форма для unlogin users, т.к. не передается user_id
+// Возможно нужно получать всегда user_id по email в форме заявки, т.к. человек может исправить на новый email.
+// Для незалогиненного юзера нужно добавить getId по введному email
+// Также нужно добавить подсказку в форме рядом с email, которая будет обхяснять,
+// что этот email будет использовать для логина и просмотра информации о заявке. 
+
 /*
-$type_ocntent = 0 - URL
-$type_ocntent = 1 - файл
+$type_content = 0 - URL
+$type_content = 1 - файл
 
 */
 
@@ -9,7 +16,40 @@ $type_ocntent = 1 - файл
 // define('SHORTINIT', true);
 // require_once('../../../../../../wp-config.php'); // подключить, иначе не будет работать Запрос Insert
 
+
+
 add_action('wp_ajax_testAjax', 'testAjax');
+add_action('wp_ajax_nopriv_testAjax', 'testAjax');
+
+function createNewUser($user_email, $user_pass)
+{
+	$userdata;
+	$user_email = $user_email;
+	$user_login = $user_email;
+
+
+	$userdata = array(
+		'user_pass'       => $user_pass, // обязательно
+		'user_login'      => $user_email, // обязательно
+		'user_email'      => $user_email,
+		'display_name'    => '',
+		'rich_editing'    => 'false', // false - выключить визуальный редактор
+		'role'            => 'competitor', // (строка) роль пользователя
+	);
+	
+	$user_id = wp_insert_user( $userdata );
+
+	//Проверка создания пользователя
+	if ( is_wp_error( $user_id ) ) {
+
+		echo $user_id->get_error_message();
+	}
+	else {
+		// return $userdata;
+		echo 'Юзер создан.';
+	}
+}
+
 function testAjax()
 {
 	
@@ -17,7 +57,12 @@ function testAjax()
 	global	$current_user; // пото нужно ID залогиненого юзера.
 
 	// ПОка веременно по email нахожу Id.
-	// $user = get_user_by( 'email', $_POST['user_id'] );
+	$user = get_user_by( 'email', $_POST['user_email'] );
+
+	$user_email = $_POST['user_email'];
+	createNewUser("guitarall@yandex.ru", "aksdjhaksjdahs");
+	
+
 	// $userId = $user->ID;
 
 	$userId = get_current_user_id();
@@ -207,7 +252,7 @@ function testAjax()
 
 	}
 		else{
-		echo 'No File Uploaded'; // Оповещаем пользователя о том, что файл не был загружен
+		// echo 'No File Uploaded'; // Оповещаем пользователя о том, что файл не был загружен
 		}
 
 		// $compositionsArray = json_decode($_POST['compositions']);
@@ -218,8 +263,8 @@ function testAjax()
 		// print_r($_POST);
 		// echo('<br>');
 		// echo ($address);
-		var_dump($_POST);
-		echo($userId);
+		// var_dump($_POST);
+		// echo($userId);
 
 	exit;
 }
