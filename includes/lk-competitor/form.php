@@ -1,42 +1,5 @@
 <?php
-$userdata;
 
-
-
-
-// function AutoLogin()
-// {
-// 	if ( is_wp_error( $user_id ) ) {
-// 		echo $user_id->get_error_message();
-// 	}
-// 	else {
-// 		echo 'Юзер создан.';
-// 		$user_data = array();
-// 		$user_data['user_login'] = $user_login;
-// 		$user_data['user_password'] = $random_password;
-// 		$user_data['remember'] = true;
-
-// 		$user = wp_signon( $user_data, false );
-// 	}
-// }
-
-function SendToEmailDataNewUser()
-{
-	global $userdata;
-	print_r($userdata['user_pass']);
-	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
-	$message = "Здравствуйте! Вы получили это сообщение, т.к. заполнили заявку на сайте международного конкурса Grand Musi Art" . "\r\n";
-	$message .= sprintf(__('Username: %s'), $userdata['user_login']) . "\r\n";
-	$message .= sprintf(__('Password: %s'), $userdata['user_pass']) . "\r\n";
-	$message .= "https://music-competition.ru/login/" . "\r\n";
-	wp_mail(
-		$userdata['user_email'],
-		sprintf(__('[%s] Your username and password'), $blogname),
-		$message,
-		'',
-		array(WP_CONTENT_DIR . '/uploads/gma-plugin/gma-VIII.pdf')
-		);
-}
 
 
 add_action( 'wp_enqueue_scripts', 'newMusician' );

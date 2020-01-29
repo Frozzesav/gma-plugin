@@ -95,6 +95,10 @@ jQuery('#newCompetitorForm').validate({
         var teacher = (jQuery('#teacher_lastname').val().trim() + " " + jQuery('#teacher_name').val().trim() + " " + jQuery('#teacher_surname').val().trim()).trim();
         var concertmaster = (jQuery('#concertmaster_lastname').val().trim() + " " + jQuery('#concertmaster_name').val().trim() + " " + jQuery('#concertmaster_surname').val().trim()).trim();
         var timeCompositions = jQuery('#timeCompositions').val();
+        
+        var user_email = jQuery('#user_email').val();
+
+        
 
         var formData = new FormData();
 

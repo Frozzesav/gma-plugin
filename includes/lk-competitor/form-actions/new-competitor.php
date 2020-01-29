@@ -21,12 +21,54 @@ $type_content = 1 - файл
 add_action('wp_ajax_testAjax', 'testAjax');
 add_action('wp_ajax_nopriv_testAjax', 'testAjax');
 
+$userdata;
+
+// function AutoLogin()
+// {
+// 	if ( is_wp_error( $user_id ) ) {
+// 		echo $user_id->get_error_message();
+// 	}
+// 	else {
+// 		echo 'Юзер создан.';
+// 		$user_data = array();
+// 		$user_data['user_login'] = $user_login;
+// 		$user_data['user_password'] = $random_password;
+// 		$user_data['remember'] = true;
+
+// 		$user = wp_signon( $user_data, false );
+// 	}
+// }
+
+
+// Отправлять подтверждение регистрации завки иреквизиты для оплаты. Вписать до какой даты нужно оплатить.
+// Отправлять письмо всем пользователям. Если зарегитрированный, то не вписывать логин и пароль. Можно только email. 
+// Для новых юзеров в письме: логин, пароль и реквизиты с подтверждением. Для уже созданных только реквизиты и ссылку на страницу логина.
+function SendToEmailDataNewUser()
+{
+	global $userdata;
+	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+	$message = "Здравствуйте! Вы получили это сообщение, т.к. заполнили заявку на сайте международного конкурса Grand Musi Art" . "\r\n";
+	$message .= sprintf(__('Username: %s'), $userdata['user_login']) . "\r\n";
+	$message .= sprintf(__('Пароль: %s'), $userdata['user_pass']) . "\r\n";
+	$message .= "https://music-competition.ru/login/" . "\r\n";
+
+	// $attachments = array(WP_CONTENT_DIR . '/uploads/attach.zip');
+	$headers = 'From: Организационный комитет Grand music art <gma@music-competition.ru>' . "\r\n";
+
+	wp_mail(
+		$userdata['user_email'],
+		sprintf(__('[%s] Ваш логин и пароль'), $blogname),
+		$message,
+		$headers,
+		// array(WP_CONTENT_DIR . '/uploads/gma-plugin/gma-VIII.pdf')
+		);
+}
+
 function createNewUser($user_email, $user_pass)
 {
-	$userdata;
+	global $userdata;
 	$user_email = $user_email;
 	$user_login = $user_email;
-
 
 	$userdata = array(
 		'user_pass'       => $user_pass, // обязательно
@@ -46,13 +88,13 @@ function createNewUser($user_email, $user_pass)
 	}
 	else {
 		// return $userdata;
+		SendToEmailDataNewUser();
 		echo 'Юзер создан.';
 	}
 }
 
 function testAjax()
 {
-	
 	global $wpdb;
 	global	$current_user; // пото нужно ID залогиненого юзера.
 
@@ -60,14 +102,11 @@ function testAjax()
 	$user = get_user_by( 'email', $_POST['user_email'] );
 
 	$user_email = $_POST['user_email'];
-	createNewUser("guitarall@yandex.ru", "aksdjhaksjdahs");
-	
+	createNewUser($user_email, "aksdjhaksjdahs");
 
-	// $userId = $user->ID;
+	$userId = $user->ID;
 
-	$userId = get_current_user_id();
-
-
+	// $userId = get_current_user_id();
 	// $_POST = array_map('stripslashes_deep', $_POST);
 	
 	$birthday = $_POST['birthday'];
@@ -167,7 +206,7 @@ function testAjax()
 		'%s',
 		'%d'
 	  ]
-);
+	);
 
 	$competitor_id =  $wpdb->insert_id;
 	$specialty_id = $_POST['specialty'];

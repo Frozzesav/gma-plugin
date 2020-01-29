@@ -16,14 +16,15 @@ function getCurrentCompetitions()
 				$sql = "SELECT * FROM wp_gma_competition 
 								 WHERE
 								 '$nowDate' >= beforeStart 
-									-- AND beforeStart > 0 
-									-- AND '$nowDate' < fromDate  
+									AND beforeStart > 0 
+									AND '$nowDate' < fromDate  
 									AND enabled = 1"; 
 									
 				$queryArray = $wpdb->get_results($sql, ARRAY_A); 
 				return $queryArray;
 				
 }
+
 function getCurrentCompetitionsForResultsPage()
 {				
 				$nowDate = date('Y-m-d');
