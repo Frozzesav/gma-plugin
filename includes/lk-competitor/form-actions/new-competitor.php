@@ -84,10 +84,17 @@ function createNewUser($user_email, $user_pass)
 	//Проверка создания пользователя
 	if ( is_wp_error( $user_id ) ) {
 
+		
+
 		echo $user_id->get_error_message();
 	}
 	else {
 		// return $userdata;
+		$user_data = array();
+		$user_data['user_login'] = $user_email;
+		$user_data['user_password'] = $user_pass;
+		$user_data['remember'] = true;
+		wp_signon($user_data, false);
 		SendToEmailDataNewUser();
 		echo 'Юзер создан.';
 	}
@@ -99,11 +106,11 @@ function testAjax()
 	global	$current_user; // пото нужно ID залогиненого юзера.
 
 	// ПОка веременно по email нахожу Id.
-	$user = get_user_by( 'email', $_POST['user_email'] );
-
+	
 	$user_email = $_POST['user_email'];
 	createNewUser($user_email, "aksdjhaksjdahs");
-
+	
+	$user = get_user_by( 'email', $_POST['user_email'] );
 	$userId = $user->ID;
 
 	// $userId = get_current_user_id();
@@ -114,7 +121,6 @@ function testAjax()
 	if ( $_POST['name'] != null ) {
 		$name_musician = $_POST['name'];
 		$name_musician = stripslashes($name_musician);
-		
 		
 		$wpdb->insert(
 			"wp_gma_musicians_of_user",
