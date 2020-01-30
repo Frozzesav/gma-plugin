@@ -23,23 +23,6 @@ add_action('wp_ajax_nopriv_testAjax', 'testAjax');
 
 $userdata;
 
-// function AutoLogin()
-// {
-// 	if ( is_wp_error( $user_id ) ) {
-// 		echo $user_id->get_error_message();
-// 	}
-// 	else {
-// 		echo 'Юзер создан.';
-// 		$user_data = array();
-// 		$user_data['user_login'] = $user_login;
-// 		$user_data['user_password'] = $random_password;
-// 		$user_data['remember'] = true;
-
-// 		$user = wp_signon( $user_data, false );
-// 	}
-// }
-
-
 // Отправлять подтверждение регистрации завки иреквизиты для оплаты. Вписать до какой даты нужно оплатить.
 // Отправлять письмо всем пользователям. Если зарегитрированный, то не вписывать логин и пароль. Можно только email. 
 // Для новых юзеров в письме: логин, пароль и реквизиты с подтверждением. Для уже созданных только реквизиты и ссылку на страницу логина.
@@ -82,27 +65,36 @@ function createNewUser($user_email, $user_pass)
 	$user_id = wp_insert_user( $userdata );
 
 	//Проверка создания пользователя
+	$result = array();
 	if ( is_wp_error( $user_id ) ) {
-
-		
-
-		echo $user_id->get_error_message();
+		$result['userCreated'] = 0;
+		// $test_array['test'] = $user_id->get_error_message();
+		echo json_encode($result);
+		wp_die();
 	}
 	else {
-		// return $userdata;
 		$user_data = array();
 		$user_data['user_login'] = $user_email;
 		$user_data['user_password'] = $user_pass;
 		$user_data['remember'] = true;
-		wp_signon($user_data, false);
+		$userLogin = wp_signon($user_data, false);
+		
+		$result['userCreated'] = 1;
+
 		SendToEmailDataNewUser();
-		echo 'Юзер создан.';
+
+		echo json_encode($result);
+
+		
+		wp_die();
+
+		// echo 'Юзер создан.';
 	}
 }
 
 function testAjax()
 {
-	global $wpdb;
+	global $wpdb;	
 	global	$current_user; // пото нужно ID залогиненого юзера.
 
 	// ПОка веременно по email нахожу Id.
@@ -113,6 +105,7 @@ function testAjax()
 	$user = get_user_by( 'email', $_POST['user_email'] );
 	$userId = $user->ID;
 
+	return;
 	// $userId = get_current_user_id();
 	// $_POST = array_map('stripslashes_deep', $_POST);
 	

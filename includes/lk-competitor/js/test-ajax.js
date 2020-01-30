@@ -143,14 +143,18 @@ jQuery('#newCompetitorForm').validate({
             processData: false,      
             success: function(data) {
                 jQuery('#loader').hide();
+                var res = JSON.parse(data);
 
-                
-                console.log(data);
+                alert('Заявка заполнена! \n Подтверждение придет на ваш E-mail в течение 24 часов (Проверьте папку \'Спам\')');
+
+                if (res['userCreated'] == 1) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    location.reload();     
+                }
                 
 
                 // ga ('send', 'event', 'submit', 'newCompetitorForGoogle');
                 ym(34839100, 'reachGoal', 'newCompetitorForMetrika');
-                alert('Заявка заполнена! \n Подтверждение придет на ваш E-mail в течение 24 часов (Проверьте папку \'Спам\')');
                 // jQuery('#newCompetitorForm').hide();
                 // jQuery('#newCompetitorForm')[0].reset();
                 // jQuery('#oneMoreCompetitorContainer').show(500);
