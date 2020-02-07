@@ -22,6 +22,7 @@ add_action('wp_ajax_testAjax', 'testAjax');
 add_action('wp_ajax_nopriv_testAjax', 'testAjax');
 
 $userdata;
+$result = array();
 
 // Отправлять подтверждение регистрации завки иреквизиты для оплаты. Вписать до какой даты нужно оплатить.
 // Отправлять письмо всем пользователям. Если зарегитрированный, то не вписывать логин и пароль. Можно только email. 
@@ -49,6 +50,8 @@ function SendToEmailDataNewUser()
 
 function createNewUser($user_email, $user_pass)
 {
+	global $result;
+
 	global $userdata;
 	$user_email = $user_email;
 	$user_login = $user_email;
@@ -65,28 +68,22 @@ function createNewUser($user_email, $user_pass)
 	$user_id = wp_insert_user( $userdata );
 
 	//Проверка создания пользователя
-	$result = array();
 	if ( is_wp_error( $user_id ) ) {
-		$result['userCreated'] = 0;
-		// $test_array['test'] = $user_id->get_error_message();
-		echo json_encode($result);
-		wp_die();
+		$result['userCreated'] = 0; //Юзер уже создан. Заново не создаётся  И не логинется  
+
 	}
-	else {
+	else if( !is_wp_error( $user_id ) &&  !is_user_logged_in() ) {
+		
 		$user_data = array();
 		$user_data['user_login'] = $user_email;
 		$user_data['user_password'] = $user_pass;
 		$user_data['remember'] = true;
+
 		$userLogin = wp_signon($user_data, false);
 		
-		$result['userCreated'] = 1;
+		$result['userCreated'] = 1; //Юзер создан. 
 
 		SendToEmailDataNewUser();
-
-		echo json_encode($result);
-
-		
-		wp_die();
 
 		// echo 'Юзер создан.';
 	}
@@ -94,18 +91,25 @@ function createNewUser($user_email, $user_pass)
 
 function testAjax()
 {
+	global $result;
 	global $wpdb;	
 	global	$current_user; // пото нужно ID залогиненого юзера.
 
 	// ПОка веременно по email нахожу Id.
 	
 	$user_email = $_POST['user_email'];
-	createNewUser($user_email, "aksdjhaksjdahs");
+	createNewUser($user_email, "pass");
 	
 	$user = get_user_by( 'email', $_POST['user_email'] );
 	$userId = $user->ID;
+	$result['userName'] = $user->display_name; 
 
-	return;
+	//Временно здесь возвращаю  ДАНННЫЕ, т.к. ниже есть остановка функции
+	echo json_encode($result);
+	wp_die(); // Нужно, чтобы wordpress не возвращал 0; 
+	
+	return; // ОСТАНОВКА РЕГИССТРАЦИИ НОВОГО КОМПЕТИТОРА
+	
 	// $userId = get_current_user_id();
 	// $_POST = array_map('stripslashes_deep', $_POST);
 	
@@ -303,7 +307,8 @@ function testAjax()
 		// echo ($address);
 		// var_dump($_POST);
 		// echo($userId);
-
+		// echo json_encode($result);
+		// wp_die();
 	exit;
 }
 

@@ -6,6 +6,7 @@ Description: Тест плагина для конкурса Grand music art
 Author: Александр Артёмов
 Author URI: https://music-competition.ru/
 */
+
 error_reporting(E_ALL);
 
 ini_set('display_errors', 0);
@@ -103,3 +104,5 @@ function get_results_ajax() {
 }
 add_action('wp_enqueue_scripts', 'get_results_ajax', 99);
 
+//Скрыть вехрнюю панель
+add_filter('show_admin_bar', '__return_false');

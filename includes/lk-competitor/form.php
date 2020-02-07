@@ -11,9 +11,11 @@ function gma_application_form_func(){
 	if ( is_user_logged_in() ) {
 		global	$current_user;
 		get_currentuserinfo();
-		echo "Здравствуйте, <b>" . $current_user->display_name . "!</b>"; 
-		echo "<br />";
-	} 
+		echo "<span id='greeting'>Здравствуйте, <b>" . $current_user->display_name . "!</b>"; 
+		echo "<br /></span>";
+	} else {
+		echo "<div id='greeting'></div>";
+	}
 
 ?>
 
@@ -307,7 +309,7 @@ function gma_application_form_func(){
 
 
 <div id="oneMoreCompetitorContainer" style="display:none">
-	<a href="javascript: oneMoreCompetitor();" id="oneMoreCompetitor"   target="_blank" rel="noopener noreferrer">Заполнить еще одну заявку?</a>
+	<a href="javascript:oneMoreCompetitor();" id="oneMoreCompetitor"  rel="noopener noreferrer">Заполнить еще одну заявку?</a>
 	<br />
 	<a href="/lk-competitor"target="_blank" rel="noopener noreferrer">Перейти в личный кабинет</a>
 </div>

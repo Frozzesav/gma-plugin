@@ -143,21 +143,25 @@ jQuery('#newCompetitorForm').validate({
             processData: false,      
             success: function(data) {
                 jQuery('#loader').hide();
+
                 var res = JSON.parse(data);
+                console.log(res);  
 
                 alert('Заявка заполнена! \n Подтверждение придет на ваш E-mail в течение 24 часов (Проверьте папку \'Спам\')');
 
                 if (res['userCreated'] == 1) {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    location.reload();     
+
+                    jQuery("#loginLink").text("Выйти");
+                    jQuery("#greeting").html("Здравствуйте, <b>" + res['userName'] + "</b>");
                 }
                 
-
+                jQuery('#newCompetitorForm').hide();
+                jQuery('#newCompetitorForm')[0].reset();
+                jQuery('#oneMoreCompetitorContainer').show(500);        
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 // ga ('send', 'event', 'submit', 'newCompetitorForGoogle');
-                ym(34839100, 'reachGoal', 'newCompetitorForMetrika');
-                // jQuery('#newCompetitorForm').hide();
-                // jQuery('#newCompetitorForm')[0].reset();
-                // jQuery('#oneMoreCompetitorContainer').show(500);
+                // ym(34839100, 'reachGoal', 'newCompetitorForMetrika');
+                
             },
             error: function(data) {
                 alert('Что то пошлое не так. Напишите на наш email: music-competiiton@yandex.ru')
