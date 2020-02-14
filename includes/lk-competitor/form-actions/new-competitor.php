@@ -31,10 +31,56 @@ function SendToEmailDataNewUser()
 {
 	global $userdata;
 	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
-	$message = "Здравствуйте! Вы получили это сообщение, т.к. заполнили заявку на сайте международного конкурса Grand Musi Art" . "\r\n";
+	$message = "Здравствуйте! Вы получили это сообщение, т.к. заполнили заявку на сайте международного конкурса Grand Music Art" . "\r\n";
 	$message .= sprintf(__('Username: %s'), $userdata['user_login']) . "\r\n";
 	$message .= sprintf(__('Пароль: %s'), $userdata['user_pass']) . "\r\n";
 	$message .= "https://music-competition.ru/login/" . "\r\n";
+
+	// $attachments = array(WP_CONTENT_DIR . '/uploads/attach.zip');
+	$headers = 'From: Организационный комитет Grand music art <gma@music-competition.ru>' . "\r\n";
+
+	wp_mail(
+		$userdata['user_email'],
+		sprintf(__('[%s] Ваш логин и пароль'), $blogname),
+		$message,
+		$headers,
+		// array(WP_CONTENT_DIR . '/uploads/gma-plugin/gma-VIII.pdf')
+		);
+}
+
+function SendToEmailBill($link, $competitorName, $ageCategory, $address, $city, $telephone, $specialty, $nomination, $program, $timeCompositions, $school, $getDiploma, $teacher, $concertmaster)
+{
+	global $userdata;
+	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+	$message = "Спасибо! Рады вашему участию." . "\r\n\r\n";
+	$message .= "$link\r\n";
+	$message .= "$competitorName\r\n";
+	$message .= "$ageCategory\r\n";
+	if($address != null) {$message .= "$address\r\n";}
+	$message .= "$city\r\n";
+	$message .= "$telephone\r\n";
+	$message .= "$specialty\r\n";
+	$message .= "$nomination\r\n";
+	$message .= "$program\r\n";
+	$message .= "$timeCompositions\r\n";
+	if($school != null){$message .= "$school\r\n";}
+	$message .= "$getDiploma\r\n";
+	if($teacher != null){$message .= "$teacher\r\n";}
+	if($concertmaster != null){$message .= "$concertmaster\r\n";}
+	$message .="
+	Просим оплатить вступительный взнос (2000 рублей) до 17.02.
+	
+	Варианты оплаты:
+		1. Перевод на карту: 5536 9137 8477 6219
+	
+		 2. Оплата картой по ссылке: https://money.yandex.ru/to/410013426471715
+	После оплаты нужно прислать подтверждение в виде чека или скриншота экрана,
+	чтобы мы видели дату и время платежа.
+	В письме с оплатой напишите пожалуйста фамилию участника, за которого она произведена.
+	
+	​​​​​​​ 	
+	P.S. Если эти способы оплаты для вас не удобны, напишите нам.\r\n\r\n";
+	$message .= "Личный кабинет: https://music-competition.ru/login/" . "\r\n";
 
 	// $attachments = array(WP_CONTENT_DIR . '/uploads/attach.zip');
 	$headers = 'From: Организационный комитет Grand music art <gma@music-competition.ru>' . "\r\n";
@@ -105,10 +151,10 @@ function testAjax()
 	$result['userName'] = $user->display_name; 
 
 	//Временно здесь возвращаю  ДАНННЫЕ, т.к. ниже есть остановка функции
-	echo json_encode($result);
-	wp_die(); // Нужно, чтобы wordpress не возвращал 0; 
+	// echo json_encode($result);
+	// wp_die(); // Нужно, чтобы wordpress не возвращал 0; 
 	
-	return; // ОСТАНОВКА РЕГИССТРАЦИИ НОВОГО КОМПЕТИТОРА
+	// return; // ОСТАНОВКА РЕГИССТРАЦИИ НОВОГО КОМПЕТИТОРА
 	
 	// $userId = get_current_user_id();
 	// $_POST = array_map('stripslashes_deep', $_POST);
@@ -135,6 +181,9 @@ function testAjax()
 		
 	}  else {
 		$musician_id = $_POST['musiciaId'];
+		
+		$name_musician = $_POST['savedName'];
+		$name_musician = stripslashes($name_musician);
 	}
 	
 	
@@ -267,7 +316,7 @@ function testAjax()
 		$new_file_name = $competitor_id . '.' . $fileInfo->getExtension();
 		$destiation_dir = $dir . $new_file_name; // Директория для размещения файла
 		move_uploaded_file($_FILES['specialtyFile']['tmp_name'], $destiation_dir ); // Перемещаем файл в желаемую директорию
-		echo 'File Uploaded'; // Оповещаем пользователя об успешной загрузке файла
+		// echo 'File Uploaded'; // Оповещаем пользователя об успешной загрузке файла
 
 		$type_content = 1; //Тип контента путь
 		
@@ -299,7 +348,8 @@ function testAjax()
 
 		// $compositionsArray = json_decode($_POST['compositions']);
 
-
+		
+		SendToEmailBill($source,$name_musician,$age_category,$address,$city,$telephone,$specialty_id,$nomination_id,$compositions,$timeCompositions,$school,$getDiploma,$teacher,$concertmaster);
 		
 
 		// print_r($_POST);
@@ -307,8 +357,9 @@ function testAjax()
 		// echo ($address);
 		// var_dump($_POST);
 		// echo($userId);
-		// echo json_encode($result);
-		// wp_die();
+		// print_r($result);
+		echo json_encode($result);
+		wp_die();
 	exit;
 }
 

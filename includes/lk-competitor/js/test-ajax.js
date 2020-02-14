@@ -24,6 +24,8 @@ jQuery('#newCompetitorForm').validate({
 
         if ( jQuery('#new-musician').is(":hidden") ) {
             var newMusicianName = null;
+            var savedMusicianName = jQuery('#musicians option:selected').text();
+
         }
         
         if ( jQuery('#new-musician').is(":visible") && jQuery('#soloOrNot').val() == "solo"
@@ -32,6 +34,7 @@ jQuery('#newCompetitorForm').validate({
             jQuery("#first_name").val().trim() + " " + 
             jQuery("#father_name").val().trim();
         } else { var newMusicianName =  jQuery("#ensemble_name").val().trim(); }
+
 
         var musiciaId = jQuery('#musicians').val();
         
@@ -104,6 +107,7 @@ jQuery('#newCompetitorForm').validate({
 
         formData.append("action", 'testAjax');
         formData.append("name", newMusicianName);
+        formData.append("savedName", savedMusicianName);
         formData.append("school", school);
         formData.append("teacher", teacher);
         formData.append("concertmaster", concertmaster);

@@ -138,9 +138,10 @@ function gma_application_form_func(){
 		<?php endforeach; ?>		
 
 		</select> или 
-		 </span>
+		 </span><br />
 <a href="javascript: addNewMusician()" id="newMusician">добавьте нового участника</a>
 <div id="new-musician" style="display:none">
+		 </br>
 <h3>Добавьте нового участника конкурса</h3>
 	<div id='soloOrNotContainer'>
 		<select name="soloOrNot" id="soloOrNot" onchange="changeNomination(value)" >
@@ -254,6 +255,7 @@ function gma_application_form_func(){
 </div>
 
 	<hr>
+	<br/>
 	<span id="showTeacherForm" class="showSwitcher">Преподаватель:</span><br />
 	<div id=teacher  style="display:none">
 
@@ -268,7 +270,7 @@ function gma_application_form_func(){
 	Отчество<br />
 	<input type="text" id="teacher_surname" name="teacher_surname" placeholder="Необязательно"><br />
 </div>
-
+<br />
 <span id="showConcertmasterForm" class="showSwitcher">Концертмейстер:</span><br />
 <div id='concertmaster' style="display:none">
 

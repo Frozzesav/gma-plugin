@@ -366,7 +366,7 @@
 
 #newCompetitorForm input[type=button], input[type=submit]  {
 	border:0px solid transparent;
-	background-color: #f40000;
+	background-color: #27a1c6;
 	color: white;
 	display: inline-block;
 	font-size: 150%;
@@ -374,7 +374,7 @@
 }
 
 #newCompetitorForm input[type=button]:hover, input[type=submit]:hover {
-	background-color: #ff0000;
+	background-color: #27a1c6;
 	cursor: pointer;
 }
 
@@ -390,8 +390,20 @@ color: red;
 
 
 .showSwitcher {
-	color: #2ea3f2;
-	text-decoration: none;
-	cursor: pointer;
-	font-weight:bold; 
+	background-color: #27a1c6;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 3px 12px 4px 12px;
+    text-decoration: none; 
+}
+
+
+#newMusician {
+	background-color: #27a1c6;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 3px 12px 4px 12px;
+    text-decoration: none; 
 }

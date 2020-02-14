@@ -42,8 +42,7 @@ jQuery(document).ready(function () {
 		
 		jQuery("#specialties").on("change", function() {
 			var specialtyName = jQuery(this).find(":selected").attr('name');
-			jQuery("#nomination option").show(); // Хз что я тут хотел показать
-
+			jQuery("#nomination option").show(); // 
 		
 	if ( jQuery('#filesContainer').is(':hidden') ) {
 		jQuery('#specialtyFile').val(null);
@@ -54,21 +53,21 @@ jQuery(document).ready(function () {
 						jQuery("#nomination :contains('Хоры')").hide();
 						jQuery("#nomination :contains('Оркестры')").hide();
 						jQuery('#nominationContainer').show(300);
-						jQuery('#concertmaster').show(300);
+						// jQuery('#concertmaster').show(300);
 						jQuery('#filesContainer').hide(300);
 						break;
 					case 'Народные инструменты':
 						jQuery("#nomination :contains('Хоры')").hide();
 						jQuery("#nomination :contains('Оркестры')").show();
 						jQuery('#nominationContainer').show(300);
-						jQuery('#concertmaster').show(300);
+						// jQuery('#concertmaster').show(300);
 						jQuery('#filesContainer').hide(300);
 						break;
 					case 'Струнно-смычковые инструменты':
 						jQuery("#nomination :contains('Хоры')").hide();
 						jQuery("#nomination :contains('Оркестры')").show();
 						jQuery('#nominationContainer').show(300);
-						jQuery('#concertmaster').show(300);
+						// jQuery('#concertmaster').show(300);
 						jQuery('#filesContainer').hide(300);
 						break;
 						case 'Духовые и ударные инструменты':
@@ -76,27 +75,27 @@ jQuery(document).ready(function () {
 							jQuery("#nomination :contains('Оркестры')").show();
 							jQuery('#nominationContainer').show(300);
 							jQuery('#filesContainer').hide(300);
-							jQuery('#concertmaster').show(300);
+							// jQuery('#concertmaster').show(300);
 						break;
 					case 'Вокал':
 						jQuery("#nomination :contains('Хоры')").show();
 						jQuery("#nomination :contains('Оркестры')").hide();
 						jQuery('#nominationContainer').show(300);
-						jQuery('#concertmaster').show(300);
+						// jQuery('#concertmaster').show(300);
 						jQuery('#filesContainer').hide(300);
 						break;
 					case 'Классическая гитара':
 						jQuery("#nomination :contains('Хоры')").hide();
 						jQuery("#nomination :contains('Оркестры')").show();
 						jQuery('#nominationContainer').show(300);
-						jQuery('#concertmaster').show(300);
+						// jQuery('#concertmaster').show(300);
 						jQuery('#filesContainer').hide(300);
 						break;
 					case 'Электрогитара':
 						jQuery("#nomination :contains('Хоры')").hide();
 						jQuery("#nomination :contains('Оркестры')").show();
 						jQuery('#nominationContainer').show(300);
-						jQuery('#concertmaster').show(300);
+						// jQuery('#concertmaster').show(300);
 						jQuery('#filesContainer').hide(300);
 						break;
 					case 'Композиторы':
@@ -104,7 +103,7 @@ jQuery(document).ready(function () {
 						jQuery('#filesContainer').show(300);
 						jQuery('#filesContainer > label').html('<b>Файл для композитора</b>');
 						jQuery('#nominationContainer').hide(300);
-						jQuery('#concertmaster').hide(300);
+						// jQuery('#concertmaster').hide(300);
 						jQuery('#nomination').val(null); 
 						break;
 					case 'Музыковедение':
@@ -112,7 +111,7 @@ jQuery(document).ready(function () {
 						jQuery('#filesContainer').show(300);
 						jQuery('#filesContainer > label').html('<b>Файл для музыковедов</b>');
 						jQuery('#nominationContainer').hide(300);
-						jQuery('#concertmaster').hide(300);
+						// jQuery('#concertmaster').hide(300);
 						jQuery('#nomination').val(null); 
 						break;
 						
@@ -171,7 +170,7 @@ function addNewMusician() {
 		jQuery('#chooseMusicianContainer').hide(300);
 	} else {
 		jQuery('#new-musician').hide(300);
-		jQuery('#chooseMusicianContainer').show(300);
+		jQuery('#chooseMusicianContainer').show(300).attr( "style", "display: inline !important;" );
 		jQuery('#newMusician').text('добавьте нового участника');
 
 		jQuery(".newMusicianData input[type='text']").val(null); //Очищаем заполненые поля
