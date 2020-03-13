@@ -28,25 +28,24 @@ add_shortcode( 'gma_lk_competitor', 'gma_lk_competitor_func' );
 
 ?>
         
-
 <div class="tabs">
 <a href="https://music-competition.ru/test-application/" target="_blank" style="display:none">Заполнить заявку</a><br />
 
 <input id="tab1" type="radio" name="tabs" checked>
-<label for="tab1" title="Ваши результаты">Ваши результаты</label>
+<label for="tab1" title="Результаты">Ваши результаты</label>
     
 <input id="tab2" type="radio" name="tabs">
-<label for="tab2" title="Заполнить заявку">Заполнить заявку</label>
+<!-- <label for="tab2" title="Заполнить заявку">Заполнить заявку</label> -->
    
     <section id="content-tab1">
         <p>
         <?php include('results.php') ?>
         </p>
     </section>  
-    <section id="content-tab2">
+    <!-- <section id="content-tab2">
         <p>
         </p>
-    </section> 
+    </section>  -->
         
 </div>
 <?php  

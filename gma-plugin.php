@@ -26,7 +26,7 @@ function newMusician()
 }
 
 function gma_plugin_styles() {
-	wp_register_style('gma-style', plugins_url('css/style.css', __FILE__), array(), 5.4);
+	wp_register_style('gma-style', plugins_url('css/style.css', __FILE__), array(), 5.5);
 	wp_enqueue_style('gma-style');
 	}
 
@@ -75,7 +75,7 @@ register_activation_hook( __FILE__, 'gma_install_data' );
 
 function test_ajax() {
 	wp_enqueue_script('jquery.validate.min', plugins_url('/includes/lk-competitor/js/jquery.validate.min.js', __FILE__), array('jquery'));
-	wp_enqueue_script('test-ajax', plugins_url('/includes/lk-competitor/js/test-ajax.js', __FILE__), array('jquery', 'jquery.validate.min'), 19.12);
+	wp_enqueue_script('test-ajax', plugins_url('/includes/lk-competitor/js/test-ajax.js', __FILE__), array('jquery', 'jquery.validate.min'), 08.03);
 	wp_localize_script('test-ajax', 'gmaPlugin', array(
 		'ajaxurl' => admin_url('admin-ajax.php'),
 	));
@@ -85,7 +85,7 @@ function get_results_ajax() {
 	wp_enqueue_script('jquery.validate.min', plugins_url('/includes/lk-competitor/js/jquery.validate.min.js', __FILE__), array('jquery'));
 
 	if (is_page('48937') || is_page('48930') ) {
-		wp_enqueue_script('get-results-ajax', plugins_url('/includes/lk-competitor/js/get-results-ajax.js', __FILE__), array('jquery', 'jquery.validate.min'), 5.4);
+		wp_enqueue_script('get-results-ajax', plugins_url('/includes/lk-competitor/js/get-results-ajax.js', __FILE__), array('jquery', 'jquery.validate.min'), 08.03);
 		require_once ('includes/lk-competitor/form-actions/getter-db-query.php');
 	}
 	

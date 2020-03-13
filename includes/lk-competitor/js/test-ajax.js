@@ -33,6 +33,8 @@ jQuery('#newCompetitorForm').validate({
             var newMusicianName = jQuery("#last_name").val().trim() + " " + 
             jQuery("#first_name").val().trim() + " " + 
             jQuery("#father_name").val().trim();
+            newMusicianName = newMusicianName.trim();
+            
         } else { var newMusicianName =  jQuery("#ensemble_name").val().trim(); }
 
 
@@ -159,8 +161,13 @@ jQuery('#newCompetitorForm').validate({
                     jQuery("#greeting").html("Здравствуйте, <b>" + res['userName'] + "</b>");
                 }
                 
-                jQuery('#newCompetitorForm').hide();
-                jQuery('#newCompetitorForm')[0].reset();
+                //закомментить для себя потом
+                // jQuery('#newCompetitorForm').hide();
+                // jQuery('.atentionCompetitor').hide();
+                // jQuery('#newCompetitorForm')[0].reset();
+                //закомментить для себя потом
+
+
                 jQuery('#oneMoreCompetitorContainer').show(500);        
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 // ga ('send', 'event', 'submit', 'newCompetitorForGoogle');
@@ -186,7 +193,8 @@ jQuery('#newCompetitorForm').validate({
 
 
 function oneMoreCompetitor() {
-        jQuery('#oneMoreCompetitorContainer').hide();
+        jQuery('#oneMoreCompetitorContainer').hide(500);
+        jQuery('.atentionCompetitor').show(500);
         jQuery('#newCompetitorForm').slideDown("slow");
         jQuery("#submit").attr("disabled", false);
 

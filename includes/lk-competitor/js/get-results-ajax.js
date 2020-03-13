@@ -51,7 +51,10 @@ jQuery(document).ready(function(){
                                 competitorsInfo += 
                                 '<tr>' +
                                 '<td>' + (i+1) + '. ' + '</td>' +
-                                '<td>' + item.result + '</td>' +
+                                (item.result ?
+                                    '<td>' + item.result + '</td>' 
+                                    : '<td>- - -</td>' 
+                                ) +
                             (item.sourceUrl ? 
                                 ('<td data-source-type="'+item.type+'"><a href="' +item.sourceUrl + '" target="_blank" rel="noopener noreferrer">Ссылка</a></td>')
                                 : '<td>- - -</td>')
@@ -107,7 +110,7 @@ function getResultsDetails() {
         cache: false,             
         processData: true,      
         success: function(data) {
-            console.log(data);
+            // console.log(data);
             jQuery('#loader').hide();
             var obj = JSON.parse(data);
             var divId = jQuery('#juryDetails');
@@ -144,7 +147,7 @@ function getDiploma() {
         cache: false,             
         processData: true,      
         success: function(data) {
-            console.log(data);
+            // console.log(data);
             jQuery('#loader').hide();
             var obj = JSON.parse(data);
 

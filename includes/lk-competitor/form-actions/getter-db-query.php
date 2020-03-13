@@ -30,8 +30,7 @@ function getCurrentCompetitionsForResultsPage()
 				$nowDate = date('Y-m-d');
 				global $wpdb;
 				
-				$sql = "SELECT * FROM wp_gma_competition 
-								 WHERE enabled = 1";  
+				$sql = "SELECT * FROM wp_gma_competition"; // Можно добавить where enable. Пока не понятно 
 									
 				$queryArray = $wpdb->get_results($sql, ARRAY_A); 
 				return $queryArray;

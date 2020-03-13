@@ -5,15 +5,16 @@
 // add_action('wp_enqueue_scripts', 'get_results_ajax', 99);
 ?>
 
-<div style="display:block;margin: auto;">
+<!-- <div style="display:block;margin: auto;">
 	<button class="showJuryDetails" style="heigth:20px;" >Узнать свой балл</button>
 	<span><button class="getDiploma" style="heigth:20px;" >Скачать диплом</button></span>
-</div>
+</div> -->
 
 <div id="getDiploma" style="display:none;"></div>
 <div id="juryDetails" style="display:none;">
 <b >Максимальный балл - 25</b></div><br>
-<b>Если не отображаются результаты, следует очистить кэш браузера за всё время <a href="https://help.mail.ru/mail-help/helpful/cache" target="_blank">Как очистить кэш?</a></b>
+<!-- <b>Если не отображаются результаты, следует очистить кэш браузера за всё время <a href="https://help.mail.ru/mail-help/helpful/cache" target="_blank">Как очистить кэш?</a></b> -->
+<b>Списки участников текущего конкурса будут доступны после 2 марта.</b><br /><br />
 
 <b>Выберите конкурс</b><br />
 
@@ -40,7 +41,7 @@
 				?>
 
 <option value="<?php echo $id; ?>">
-		<?php echo $name . " – " . $header . " (Заявки принимаются до $fromDate )"; ?>
+		<?php echo $name . " – " . $header . " ( $fromDate - $toDate )"; ?>
 	</option> 
 	
 	<?php endforeach; ?>		

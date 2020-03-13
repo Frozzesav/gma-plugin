@@ -109,6 +109,8 @@ jQuery(document).ready(function () {
 					case 'Музыковедение':
 						jQuery('#specialtyFile').val(null)
 						jQuery('#filesContainer').show(300);
+						jQuery('#linkContainer').hide(300);
+						
 						jQuery('#filesContainer > label').html('<b>Файл для музыковедов</b>');
 						jQuery('#nominationContainer').hide(300);
 						// jQuery('#concertmaster').hide(300);

@@ -74,8 +74,7 @@ function SendToEmailBill($link, $competitorName, $ageCategory, $address, $city, 
 		1. Перевод на карту: 5536 9137 8477 6219
 	
 		 2. Оплата картой по ссылке: https://money.yandex.ru/to/410013426471715
-	После оплаты нужно прислать подтверждение в виде чека или скриншота экрана,
-	чтобы мы видели дату и время платежа.
+	После оплаты нужно прислать подтверждение в виде чека или скриншота экрана, чтобы мы видели дату и время платежа.
 	В письме с оплатой напишите пожалуйста фамилию участника, за которого она произведена.
 	
 	​​​​​​​ 	
@@ -139,10 +138,10 @@ function testAjax()
 {
 	global $result;
 	global $wpdb;	
-	global	$current_user; // пото нужно ID залогиненого юзера.
+	global $current_user; // пото нужно ID залогиненого юзера.
 
 	// ПОка веременно по email нахожу Id.
-	
+	$name_musician;	
 	$user_email = $_POST['user_email'];
 	createNewUser($user_email, "pass");
 	
@@ -150,11 +149,6 @@ function testAjax()
 	$userId = $user->ID;
 	$result['userName'] = $user->display_name; 
 
-	//Временно здесь возвращаю  ДАНННЫЕ, т.к. ниже есть остановка функции
-	// echo json_encode($result);
-	// wp_die(); // Нужно, чтобы wordpress не возвращал 0; 
-	
-	// return; // ОСТАНОВКА РЕГИССТРАЦИИ НОВОГО КОМПЕТИТОРА
 	
 	// $userId = get_current_user_id();
 	// $_POST = array_map('stripslashes_deep', $_POST);
@@ -233,31 +227,31 @@ function testAjax()
 			"getDiploma" => $_POST['getDiploma'],  
 			"competition_id" => $competition_id, 
 			"age_category" => "$age_category", 
-			"isConfirm" => 0,
+			"isConfirm" => 1,
 			"teacher" => $teacher,
 			"concertmaster" => $concertmaster,
 			"school" => $school,
 			"timeCompositions" => $timeCompositions
 		],
 	
-	[
-		'%d', 
-		'%d', 
-		'%s', 
-		'%s', 
-		'%s', 
-		'%s', 
-		'%s', 
-		'%s',
-		'%s', 
-		'%d',
-		'%s', 
-		'%d',
-		'%s',
-		'%s',
-		'%s',
-		'%d'
-	  ]
+		[
+			'%d', 
+			'%d', 
+			'%s', 
+			'%s', 
+			'%s', 
+			'%s', 
+			'%s', 
+			'%s',
+			'%s', 
+			'%d',
+			'%s', 
+			'%d',
+			'%s',
+			'%s',
+			'%s',
+			'%d'
+		]
 	);
 
 	$competitor_id =  $wpdb->insert_id;
@@ -287,19 +281,19 @@ function testAjax()
 	
 
 		if ( isset($_POST['source']) ) {
-		$type_content = 0; //Тип контента url
+		$type_content = 0; //Тип контента url Если 1, то это файл. Для композиторов.
 		$source = htmlspecialchars( $_POST['source'] );
 		
-		$wpdb->insert(
-			"wp_gma_competitor_content",
-			[
-			"source" => $source, 
-			"type" => $type_content,
-			"competitor_id" => $competitor_id
+	$wpdb->insert(
+		"wp_gma_competitor_content",
+		[
+		"source" => $source, 
+		"type" => $type_content,
+		"competitor_id" => $competitor_id
 		],
-		
-			['%s', '%d', '%d']
-			);
+	
+		['%s', '%d', '%d']
+		);
 	}
 
 
@@ -349,8 +343,8 @@ function testAjax()
 		// $compositionsArray = json_decode($_POST['compositions']);
 
 		
-		SendToEmailBill($source,$name_musician,$age_category,$address,$city,$telephone,$specialty_id,$nomination_id,$compositions,$timeCompositions,$school,$getDiploma,$teacher,$concertmaster);
-		
+		// SendToEmailBill($source,$name_musician,$age_category,$address,$city,$telephone,$specialty_id,$nomination_id,$compositions,$timeCompositions,$school,$getDiploma,$teacher,$concertmaster);
+		// AddCompetitorToBitrix($user_email,$link,$name_musician,$age_category,$address,$city,$telephone,$specialty_id,$nomination_id,$program,$timeCompositions,$school,$getDiploma,$teacher,$concertmaster);
 
 		// print_r($_POST);
 		// echo('<br>');
@@ -362,4 +356,112 @@ function testAjax()
 		wp_die();
 	exit;
 }
+
+// Потом заменить со всеми параметрами.
+
+function AddCompetitorToBitrix($user_email,$link, $competitorName, $ageCategory, $address, $city, $telephone, $specialty, $nomination, $program, $timeCompositions, $school, $getDiploma, $teacher, $concertmaster)
+{
+
+	//подключение к серверу CRM
+	define('CRM_HOST', 'gma.bitrix24.ru'); // Ваш домен CRM системы
+	define('CRM_PORT', '443'); // Порт сервера CRM. Установлен по умолчанию
+	define('CRM_PATH', '/crm/configs/import/lead.php'); // Путь к компоненту lead.rest
+	//авторизация в CRM
+	define('CRM_LOGIN', 'frozzesav@gmail.com'); // Логин пользователя Вашей CRM по управлению лидами
+	define('CRM_PASSWORD', 'a1b2c4d3'); // Пароль пользователя Вашей CRM по управлению лидами
+	//перехват данных из Contact Form 7
+	$title = "Новый участник";
+
+	//далее мы перехватывает введенные данные в Contact Form 7
+	$firstName = $competitorName ; //перехватываем поле [your-name]
+	$email = $user_email; //перехватываем поле [your-message]
+	// $birthday = ;
+	// $specialty = ;
+	// $nomination = ;
+	$numberCompetition ="VIII" ;
+	// $vocal_type = ;
+	// $category = ;
+	// $members = ;
+	// $program = ;
+
+	// $getDiploma = ;
+	
+	$coutry = $country;
+	$city = $city;
+	// $index = ;
+	// $street = ;
+	// $dom = ;
+	// $appartement= ;
+
+	$link = $link ;
+	$school = $school;
+	// $surname_t = ;
+	// $your_name_t = ;
+	// $middle_name_t = ;
+	$phone = $telephone;
+	$concertmaster =$concertmaster ;
+	// $comments = ;
+		
+	//сопостановление полей Bitrix24 с полученными данными из Contact Form 7
+	$postData = array(
+		'UF_CRM_1543516558' => $title,
+		'TITLE' => $firstName, // Установить значение свое значение
+		'NAME' => $firstName,
+		// 'UF_CRM_1541452314' => $numberCompetition,
+		// 'UF_CRM_1541512410' => $category,
+		// 'UF_CRM_1541512870' => $birthday,
+		// 'UF_CRM_1541452397' => $link,
+		// 'UF_CRM_1541433862957' => $specialty, 
+		// 'UF_CRM_1541509433' => $nomination,
+		'EMAIL_WORK' => $email,
+		// 'PHONE_MOBILE' => $phone,
+
+			// 'UF_CRM_1541511456' => $getDiploma,
+			// // Адрес
+			// 'ADDRESS_COUNTRY' => $coutry,
+			// 'ADDRESS_CITY' => $city,
+			// 'ADDRESS_POSTAL_CODE' => $index,
+			// 'ADDRESS' => $street .', ' . $dom,
+			// 'ADDRESS_2' => $appartement,
+			// //Преподаватель
+			// 'UF_CRM_1541509757' => $surname_t,
+			// 'UF_CRM_1541509772' => $your_name_t,
+			// 'UF_CRM_1541509789' => $middle_name_t,
+			// //Концертмейстер
+			// 'UF_CRM_1541509857' => $concertmaster,
+			// //Учебное заведение
+			// 'UF_CRM_1541509883' => $school,
+	);
+	//передача данных из Contact Form 7 в Bitrix24
+	if (defined('CRM_AUTH')) {
+		$postData['AUTH'] = CRM_AUTH;
+		} else {
+		$postData['LOGIN'] = CRM_LOGIN;
+		$postData['PASSWORD'] = CRM_PASSWORD;
+		}
+	$fp = fsockopen("ssl://".CRM_HOST, CRM_PORT, $errno, $errstr, 30);
+	if ($fp) {
+		$strPostData = '';
+	foreach ($postData as $key => $value)
+	$strPostData .= ($strPostData == '' ? '' : '&').$key.'='.urlencode($value);
+	$str = "POST ".CRM_PATH." HTTP/1.0\r\n";
+	$str .= "Host: ".CRM_HOST."\r\n";
+	$str .= "Content-Type: application/x-www-form-urlencoded\r\n";
+	$str .= "Content-Length: ".strlen($strPostData)."\r\n";
+	$str .= "Connection: close\r\n\r\n";
+	$str .= $strPostData;
+	fwrite($fp, $str);
+	$result = '';
+	while (!feof($fp))
+	{
+		$result .= fgets($fp, 128);
+	}
+	fclose($fp);
+	$response = explode("\r\n\r\n", $result);
+	$output = '<pre>'.print_r($response[1], 1).'</pre>';
+	} else {
+	echo 'Connection Failed! '.$errstr.' ('.$errno.')';
+	}
+}
+
 
